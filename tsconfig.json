@@ -1,0 +1,19 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+
+    "allowUnreachableCode": true,
+    "target": "es5", 
+    "outFile": "./dist/start.js"
+  },
+    "include": [
+        "src/utils/**/*",
+        "src/entities/**/*",
+        "src/start.ts",
+        "ts/LayaAir.d.ts"
+    ] 
+}
