@@ -6,9 +6,12 @@ module entities.animals{
 		constructor(x:number,y:number){
 			super(x,y);
 			this.loadImage("res/img/animals/dog/dog1.png",x,y,this.width,this.height);
-			//Laya.stage.on(Laya.Event.CLICK, this, this.onClick);
+			this.mouseEnabled = true;
+			this.on(Laya.Event.CLICK, this, this.onClick);
 		}	
-
+		private onClick():void {
+		  console.log('click me');
+		}
 		
 	}
 }

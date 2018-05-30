@@ -191,9 +191,13 @@ var entities;
             function Dog(x, y) {
                 var _this = _super.call(this, x, y) || this;
                 _this.loadImage("res/img/animals/dog/dog1.png", x, y, _this.width, _this.height);
+                _this.mouseEnabled = true;
+                _this.on(Laya.Event.CLICK, _this, _this.onClick);
                 return _this;
-                //Laya.stage.on(Laya.Event.CLICK, this, this.onClick);
             }
+            Dog.prototype.onClick = function () {
+                console.log('click me');
+            };
             return Dog;
         }(entities.Animal));
         animals.Dog = Dog;
@@ -271,6 +275,7 @@ var GameMain = /** @class */ (function () {
         Laya.init(800, 600);
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
+        Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_AUTO;
     }
     GameMain.prototype.init = function () {
         var point;

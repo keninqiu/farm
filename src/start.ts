@@ -8,6 +8,7 @@ import Fog = entities.animals.Fog;
 import Pumpkin = entities.plants.Pumpkin;
 import Tomato = entities.plants.Tomato;
 import PointUtil = utils.PointUtil;
+
 class GameMain{
     public dogs:Array<Dog>;
     public fogs:Array<Fog>;
@@ -17,6 +18,7 @@ class GameMain{
         Laya.init(800,600);
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
+        Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_AUTO;
     }
     init() {
         var point:Point;
