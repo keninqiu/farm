@@ -196,7 +196,8 @@ var entities;
                 return _this;
             }
             Dog.prototype.onClick = function () {
-                console.log('click me');
+                console.log('click meme');
+                $('#myModal').modal('toggle');
             };
             return Dog;
         }(entities.Animal));

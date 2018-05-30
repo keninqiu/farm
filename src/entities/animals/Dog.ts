@@ -1,6 +1,7 @@
 /**
 * name 
 */
+
 module entities.animals{
 	export class Dog extends Animal{
 		constructor(x:number,y:number){
@@ -10,7 +11,8 @@ module entities.animals{
 			this.on(Laya.Event.CLICK, this, this.onClick);
 		}	
 		private onClick():void {
-		  console.log('click me');
+		  console.log('click meme');
+		  $('#myModal').modal('toggle');
 		}
 		
 	}
