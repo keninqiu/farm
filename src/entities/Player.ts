@@ -7,7 +7,8 @@ module entities{
 		constructor(){
 			super(0,0);
 			this.dx = this.dy = 0;
-			this.width = this.height = 50;
+			this.width = 192;
+			this.height = 108;
 			this.loadImage("res/img/player/player1.jpg",this.x,this.y,this.width,this.height);
 		}
 
