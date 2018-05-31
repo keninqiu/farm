@@ -15,6 +15,7 @@ class GameMain{
     public pumpkins:Array<Pumpkin>;
     public tomatos:Array<Tomato>;
     public player:Player;
+    public playing:boolean;
     constructor()
     {
         Laya.init(800,600);
@@ -24,6 +25,7 @@ class GameMain{
     }
     init() {
         var point:Point;
+        this.playing = false;
         this.dogs = new Array(Dog.COUNT);
         this.fogs = new Array(Fog.COUNT);
         this.pumpkins = new Array(Pumpkin.COUNT);
@@ -117,7 +119,7 @@ class GameMain{
                 }
             });
         }  
-                      
+
     }
 
     onMouseDown() {
@@ -126,7 +128,7 @@ class GameMain{
     }
     animateTimeBased() {
         //console.log("haha");
-        
+        var playing:boolean = false;
         if(this.dogs != undefined) {
             this.dogs.forEach(function(value) {
                 value.moveArround();
@@ -140,6 +142,23 @@ class GameMain{
         }    
        
         this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x,this.player.y,this.player.dx,this.player.dy,this.player.speed));
+
+        var rect2 = this.player.getBounds();
+        if(this.dogs != undefined && this.player != undefined) {
+            this.dogs.forEach(function(dog) {
+                if(this.playing) {
+                    return;
+                }
+                var rect1 = dog.getBounds();
+                if(rect1.intersects(rect2)) {
+                  var audio = new Audio();
+                  audio.style.display = "none";
+                  audio.src = "res/audio/dog.mp3";
+                  audio.autoplay = true;  
+                  this.playing = true;          
+                }
+            });
+        }        
         
     }
 }

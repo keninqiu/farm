@@ -279,6 +279,7 @@ var GameMain = /** @class */ (function () {
     }
     GameMain.prototype.init = function () {
         var point;
+        this.playing = false;
         this.dogs = new Array(Dog.COUNT);
         this.fogs = new Array(Fog.COUNT);
         this.pumpkins = new Array(Pumpkin.COUNT);
@@ -370,6 +371,7 @@ var GameMain = /** @class */ (function () {
     };
     GameMain.prototype.animateTimeBased = function () {
         //console.log("haha");
+        var playing = false;
         if (this.dogs != undefined) {
             this.dogs.forEach(function (value) {
                 value.moveArround();
@@ -381,6 +383,22 @@ var GameMain = /** @class */ (function () {
             });
         }
         this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x, this.player.y, this.player.dx, this.player.dy, this.player.speed));
+        var rect2 = this.player.getBounds();
+        if (this.dogs != undefined && this.player != undefined) {
+            this.dogs.forEach(function (dog) {
+                if (this.playing) {
+                    return;
+                }
+                var rect1 = dog.getBounds();
+                if (rect1.intersects(rect2)) {
+                    var audio = new Audio();
+                    audio.style.display = "none";
+                    audio.src = "res/audio/dog.mp3";
+                    audio.autoplay = true;
+                    this.playing = true;
+                }
+            });
+        }
     };
     return GameMain;
 }());
