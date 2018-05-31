@@ -140,7 +140,7 @@ var entities;
         __extends(Map, _super);
         function Map() {
             var _this = _super.call(this) || this;
-            _this.loadImage("res/img/bg.jpg", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
+            _this.loadImage("res/img/bg.png", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
             return _this;
         }
         return Map;
@@ -276,6 +276,7 @@ var GameMain = /** @class */ (function () {
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.scaleMode = "showall";
+        Laya.stage.fullScreenEnabled = true;
     }
     GameMain.prototype.init = function () {
         var point;

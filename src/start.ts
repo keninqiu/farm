@@ -22,6 +22,7 @@ class GameMain{
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.scaleMode = "showall";
+        Laya.stage.fullScreenEnabled = true;
     }
     init() {
         var point:Point;
