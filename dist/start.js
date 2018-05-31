@@ -140,7 +140,7 @@ var entities;
         __extends(Map, _super);
         function Map() {
             var _this = _super.call(this) || this;
-            _this.loadImage("res/img/bg.jpg", 0, 0);
+            _this.loadImage("res/img/bg.jpg", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
             return _this;
         }
         return Map;
@@ -272,10 +272,10 @@ var Tomato = entities.plants.Tomato;
 var PointUtil = utils.PointUtil;
 var GameMain = /** @class */ (function () {
     function GameMain() {
-        Laya.init(800, 600);
+        Laya.init(Laya.Browser.clientWidth, Laya.Browser.clientHeight, Laya.WebGL);
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
-        Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_AUTO;
+        Laya.stage.scaleMode = "showall";
     }
     GameMain.prototype.init = function () {
         var point;

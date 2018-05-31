@@ -18,10 +18,10 @@ class GameMain{
     public playing:boolean;
     constructor()
     {
-        Laya.init(800,600);
+        Laya.init(Laya.Browser.clientWidth,Laya.Browser.clientHeight, Laya.WebGL);
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
-        Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_AUTO;
+        Laya.stage.scaleMode = "showall";
     }
     init() {
         var point:Point;
