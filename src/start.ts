@@ -147,6 +147,10 @@ class GameMain{
         var map:Map = new Map();
         Laya.stage.addChild(map);    
         this.initSprites();
+
+        this.player = new Player();
+        Laya.stage.addChild(this.player);
+                
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown); 
         /*
         var point:Point;
@@ -157,8 +161,7 @@ class GameMain{
         this.tomatos = new Array(Tomato.COUNT);
         var map:Map = new Map();
         Laya.stage.addChild(map);
-        this.player = new Player();
-        Laya.stage.addChild(this.player);
+
         
         var cat:Cat = new Cat(100,100);
         Laya.stage.addChild(cat);
