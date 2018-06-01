@@ -1,19 +1,120 @@
 // 程序入口
 import Player = entities.Player;
 import Map = entities.Map;
+
+import Creature = entities.Creature;
+
 import Areas = utils.Areas;
 import Area = utils.Area;
 import Dog = entities.animals.Dog;
 import Fog = entities.animals.Fog;
+import Cat = entities.animals.Cat;
 import Pumpkin = entities.plants.Pumpkin;
 import Tomato = entities.plants.Tomato;
+
+
 import PointUtil = utils.PointUtil;
+var SpritesData = [
+    {
+        type:"Dog",
+        x:646,
+        y:182,
+        width:76,
+        height:100
+    },
+    {
+        type:"Pumpkin",
+        x:513,
+        y:309,
+        width:86,
+        height:81
+    },
+    {
+        type:"Pumpkin",
+        x:543,
+        y:325,
+        width:86,
+        height:81
+    }, 
+    {
+        type:"Pumpkin",
+        x:573,
+        y:341,
+        width:86,
+        height:81
+    }, 
+    {
+        type:"Pumpkin",
+        x:603,
+        y:357,
+        width:86,
+        height:81
+    }, 
+    {
+        type:"Tomato",
+        x:443,
+        y:173,
+        width:82,
+        height:85
+    }, 
+    {
+        type:"Tomato",
+        x:421,
+        y:192,
+        width:82,
+        height:85
+    }, 
+    {
+        type:"Tomato",
+        x:396,
+        y:177,
+        width:82,
+        height:85
+    }, 
+    {
+        type:"Tomato",
+        x:370,
+        y:167,
+        width:82,
+        height:85
+    },   
+    {
+        type:"Tomato",
+        x:344,
+        y:154,
+        width:82,
+        height:85
+    },    
+    {
+        type:"Tomato",
+        x:354,
+        y:144,
+        width:82,
+        height:85
+    },  
+    {
+        type:"Tomato",
+        x:417,
+        y:162,
+        width:82,
+        height:85
+    },    
+    {
+        type:"Fog",
+        x:636,
+        y:479,
+        width:41,
+        height:27
+    },                 
+];
 
 class GameMain{
     public dogs:Array<Dog>;
     public fogs:Array<Fog>;
     public pumpkins:Array<Pumpkin>;
     public tomatos:Array<Tomato>;
+
+    public creatures:Array<Creature>;
     public player:Player;
     public playing:boolean;
     constructor()
@@ -24,7 +125,30 @@ class GameMain{
         Laya.stage.scaleMode = "showall";
         Laya.stage.fullScreenEnabled = true;
     }
+    initSprites() {
+        this.creatures = new Array(Creature.COUNT);
+        for(var i=0;i<SpritesData.length;i++)  {
+            var spriteData = SpritesData[i];
+            console.log(spriteData.type);
+            
+            var sprite:Creature = new Creature(
+                spriteData.type,
+                spriteData.x,
+                spriteData.y,
+                spriteData.width,
+                spriteData.height
+            );
+            this.creatures.push(sprite);
+            Laya.stage.addChild(sprite);
+            
+        };
+    }
     init() {
+        var map:Map = new Map();
+        Laya.stage.addChild(map);    
+        this.initSprites();
+        Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown); 
+        /*
         var point:Point;
         this.playing = false;
         this.dogs = new Array(Dog.COUNT);
@@ -35,6 +159,11 @@ class GameMain{
         Laya.stage.addChild(map);
         this.player = new Player();
         Laya.stage.addChild(this.player);
+        
+        var cat:Cat = new Cat(100,100);
+        Laya.stage.addChild(cat);
+
+        
         var dogsArea:Area = Areas.getDogsArea();
         var fogsArea:Area = Areas.getFogsArea();
         for(var i=0;i<Dog.COUNT;i++) {
@@ -61,13 +190,49 @@ class GameMain{
 
         Laya.timer.loop(200, this, this.animateTimeBased);
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown);                     
-             
+        */     
     }
 
     private showVideo(): void {
         var x:number = Laya.stage.mouseX;
         var y:number = Laya.stage.mouseY;
+        var showing:boolean = false;
+        if(this.creatures != undefined) {
+            this.creatures.forEach(function(creature) {
+                if(showing) {
+                    return;
+                }
+                if(creature.getBounds().contains(x,y)) {
+                  var type = creature.type;
+                  if(type == 'Dog') {
+                    $('#videoId').attr('src','res/mp4/狗.mp4');
+                  }
+                  else if(type == 'Tomato') {
+                    $('#videoId').attr('src','res/mp4/西红柿.mp4');
+                  }
+                  else if(type == 'Fog') {
+                    $('#videoId').attr('src','res/mp4/青蛙.mp4');
+                  }  
+                  else if(type == 'Pumpkin') {
+                    $('#videoId').attr('src','res/mp4/南瓜.mp4');
+                  }
+                  
+                  $('#myModal').modal('toggle'); 
+                  console.log("show me pls");
+                  showing = true;               
+                }
+            });
+        }
+
+        /*
         console.log("x="+x+"y="+y);
+
+        var realX:number = x*1920/Laya.Browser.clientWidth;
+        var realY:number = y*1080/Laya.Browser.clientHeight;
+
+        console.log("realX="+realX+"realY="+realY);
+        */
+        /*
         var showing:boolean = false;
         if(this.dogs != undefined) {
             this.dogs.forEach(function(dog) {
@@ -120,16 +285,19 @@ class GameMain{
                 }
             });
         }  
-
+        */
     }
 
     onMouseDown() {
+        /*
         this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
+        */
         this.showVideo();
     }
     animateTimeBased() {
         //console.log("haha");
         var playing:boolean = false;
+        /*
         if(this.dogs != undefined) {
             this.dogs.forEach(function(value) {
                 value.moveArround();
@@ -141,7 +309,7 @@ class GameMain{
                 value.moveArround();
             });
         }    
-       
+        */
         this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x,this.player.y,this.player.dx,this.player.dy,this.player.speed));
 
         var rect2 = this.player.getBounds();

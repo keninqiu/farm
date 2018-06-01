@@ -131,6 +131,41 @@ var entities;
     }(Laya.Sprite));
     entities.Animal = Animal;
 })(entities || (entities = {}));
+var entities;
+(function (entities) {
+    var Creature = /** @class */ (function (_super) {
+        __extends(Creature, _super);
+        function Creature(type, x, y, width, height) {
+            var _this = _super.call(this) || this;
+            _this.type = type;
+            x = x * Laya.Browser.clientWidth / 1920;
+            y = y * Laya.Browser.clientHeight / 1080;
+            _this.autoSize = true;
+            width = width * Laya.Browser.clientWidth / 1920;
+            height = height * Laya.Browser.clientHeight / 1080;
+            _this.x = x;
+            _this.y = y;
+            _this.width = width;
+            _this.height = height;
+            if (type == 'Dog') {
+                _this.loadImage("res/img/animals/dog/dog1.png", x, y, width, height);
+            }
+            else if (type == 'Pumpkin') {
+                _this.loadImage("res/img/plants/pumpkin/pumpkin1.png", x, y, width, height);
+            }
+            else if (type == 'Tomato') {
+                _this.loadImage("res/img/plants/tomato/tomato1.png", x, y, width, height);
+            }
+            else if (type == 'Fog') {
+                _this.loadImage("res/img/animals/fog/fog1.png", x, y, width, height);
+            }
+            return _this;
+        }
+        Creature.COUNT = 20;
+        return Creature;
+    }(Laya.Sprite));
+    entities.Creature = Creature;
+})(entities || (entities = {}));
 /**
 * name
 */
@@ -180,6 +215,26 @@ var entities;
         return Player;
     }(entities.Animal));
     entities.Player = Player;
+})(entities || (entities = {}));
+var entities;
+(function (entities) {
+    var animals;
+    (function (animals) {
+        var Cat = /** @class */ (function (_super) {
+            __extends(Cat, _super);
+            function Cat(x, y) {
+                var _this = _super.call(this, x, y) || this;
+                _this.width = 100;
+                _this.height = 100;
+                _this.loadImage("res/img/animals/cat/cat1.png", x, y, _this.width, _this.height);
+                _this.mouseEnabled = true;
+                _this.autoSize = true;
+                return _this;
+            }
+            return Cat;
+        }(entities.Animal));
+        animals.Cat = Cat;
+    })(animals = entities.animals || (entities.animals = {}));
 })(entities || (entities = {}));
 /**
 * name
@@ -263,13 +318,108 @@ var entities;
 // 程序入口
 var Player = entities.Player;
 var Map = entities.Map;
+var Creature = entities.Creature;
 var Areas = utils.Areas;
 var Area = utils.Area;
 var Dog = entities.animals.Dog;
 var Fog = entities.animals.Fog;
+var Cat = entities.animals.Cat;
 var Pumpkin = entities.plants.Pumpkin;
 var Tomato = entities.plants.Tomato;
 var PointUtil = utils.PointUtil;
+var SpritesData = [
+    {
+        type: "Dog",
+        x: 646,
+        y: 182,
+        width: 76,
+        height: 100
+    },
+    {
+        type: "Pumpkin",
+        x: 513,
+        y: 309,
+        width: 86,
+        height: 81
+    },
+    {
+        type: "Pumpkin",
+        x: 543,
+        y: 325,
+        width: 86,
+        height: 81
+    },
+    {
+        type: "Pumpkin",
+        x: 573,
+        y: 341,
+        width: 86,
+        height: 81
+    },
+    {
+        type: "Pumpkin",
+        x: 603,
+        y: 357,
+        width: 86,
+        height: 81
+    },
+    {
+        type: "Tomato",
+        x: 443,
+        y: 173,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Tomato",
+        x: 421,
+        y: 192,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Tomato",
+        x: 396,
+        y: 177,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Tomato",
+        x: 370,
+        y: 167,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Tomato",
+        x: 344,
+        y: 154,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Tomato",
+        x: 354,
+        y: 144,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Tomato",
+        x: 417,
+        y: 162,
+        width: 82,
+        height: 85
+    },
+    {
+        type: "Fog",
+        x: 636,
+        y: 479,
+        width: 41,
+        height: 27
+    },
+];
 var GameMain = /** @class */ (function () {
     function GameMain() {
         Laya.init(Laya.Browser.clientWidth, Laya.Browser.clientHeight, Laya.WebGL);
@@ -278,111 +428,180 @@ var GameMain = /** @class */ (function () {
         Laya.stage.scaleMode = "showall";
         Laya.stage.fullScreenEnabled = true;
     }
+    GameMain.prototype.initSprites = function () {
+        this.creatures = new Array(Creature.COUNT);
+        for (var i = 0; i < SpritesData.length; i++) {
+            var spriteData = SpritesData[i];
+            console.log(spriteData.type);
+            var sprite = new Creature(spriteData.type, spriteData.x, spriteData.y, spriteData.width, spriteData.height);
+            this.creatures.push(sprite);
+            Laya.stage.addChild(sprite);
+        }
+        ;
+    };
     GameMain.prototype.init = function () {
-        var point;
+        var map = new Map();
+        Laya.stage.addChild(map);
+        this.initSprites();
+        Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
+        /*
+        var point:Point;
         this.playing = false;
         this.dogs = new Array(Dog.COUNT);
         this.fogs = new Array(Fog.COUNT);
         this.pumpkins = new Array(Pumpkin.COUNT);
         this.tomatos = new Array(Tomato.COUNT);
-        var map = new Map();
+        var map:Map = new Map();
         Laya.stage.addChild(map);
         this.player = new Player();
         Laya.stage.addChild(this.player);
-        var dogsArea = Areas.getDogsArea();
-        var fogsArea = Areas.getFogsArea();
-        for (var i = 0; i < Dog.COUNT; i++) {
+        
+        var cat:Cat = new Cat(100,100);
+        Laya.stage.addChild(cat);
+
+        
+        var dogsArea:Area = Areas.getDogsArea();
+        var fogsArea:Area = Areas.getFogsArea();
+        for(var i=0;i<Dog.COUNT;i++) {
             point = PointUtil.getRandPointWithin(Areas.getDogsArea());
-            var dog = new Dog(point.x, point.y);
+            var dog:Dog = new Dog(point.x,point.y);
             Laya.stage.addChild(dog);
             this.dogs.push(dog);
         }
-        for (var i = 0; i < Fog.COUNT; i++) {
+        
+        for(var i=0;i<Fog.COUNT;i++) {
             point = PointUtil.getRandPointWithin(Areas.getFogsArea());
-            var fog = new Fog(point.x, point.y);
+            var fog:Fog = new Fog(point.x,point.y);
             Laya.stage.addChild(fog);
             this.fogs.push(fog);
         }
-        var pumpkin = new Pumpkin(350, 150);
+        
+        var pumpkin:Pumpkin = new Pumpkin(350,150);
         Laya.stage.addChild(pumpkin);
         this.pumpkins.push(pumpkin);
-        var tomato = new Tomato(350, 50);
+
+        var tomato:Tomato = new Tomato(350,50);
         Laya.stage.addChild(tomato);
         this.tomatos.push(tomato);
+
         Laya.timer.loop(200, this, this.animateTimeBased);
-        Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
+        Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown);
+        */
     };
     GameMain.prototype.showVideo = function () {
         var x = Laya.stage.mouseX;
         var y = Laya.stage.mouseY;
-        console.log("x=" + x + "y=" + y);
         var showing = false;
-        if (this.dogs != undefined) {
-            this.dogs.forEach(function (dog) {
+        if (this.creatures != undefined) {
+            this.creatures.forEach(function (creature) {
                 if (showing) {
                     return;
                 }
-                if (dog.getBounds().contains(x, y)) {
-                    $('#videoId').attr('src', 'res/mp4/狗.mp4');
+                if (creature.getBounds().contains(x, y)) {
+                    var type = creature.type;
+                    if (type == 'Dog') {
+                        $('#videoId').attr('src', 'res/mp4/狗.mp4');
+                    }
+                    else if (type == 'Tomato') {
+                        $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
+                    }
+                    else if (type == 'Fog') {
+                        $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
+                    }
+                    else if (type == 'Pumpkin') {
+                        $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
+                    }
                     $('#myModal').modal('toggle');
+                    console.log("show me pls");
                     showing = true;
                 }
             });
         }
-        if (this.fogs != undefined) {
-            this.fogs.forEach(function (fog) {
-                if (showing) {
+        /*
+        console.log("x="+x+"y="+y);
+
+        var realX:number = x*1920/Laya.Browser.clientWidth;
+        var realY:number = y*1080/Laya.Browser.clientHeight;
+
+        console.log("realX="+realX+"realY="+realY);
+        */
+        /*
+        var showing:boolean = false;
+        if(this.dogs != undefined) {
+            this.dogs.forEach(function(dog) {
+                if(showing) {
                     return;
                 }
-                if (fog.getBounds().contains(x, y)) {
-                    $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
-                    $('#myModal').modal('toggle');
-                    showing = true;
+                if(dog.getBounds().contains(x,y)) {
+                  $('#videoId').attr('src','res/mp4/狗.mp4');
+                  $('#myModal').modal('toggle');
+                  showing = true;
                 }
             });
         }
-        if (this.pumpkins != undefined) {
-            this.pumpkins.forEach(function (pumpkin) {
-                if (showing) {
+
+        if(this.fogs != undefined) {
+            this.fogs.forEach(function(fog) {
+                if(showing) {
                     return;
                 }
-                if (pumpkin.getBounds().contains(x, y)) {
-                    $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
-                    $('#myModal').modal('toggle');
-                    showing = true;
+                if(fog.getBounds().contains(x,y)) {
+                  $('#videoId').attr('src','res/mp4/青蛙.mp4');
+                  $('#myModal').modal('toggle');
+                  showing = true;
                 }
             });
         }
-        if (this.tomatos != undefined) {
-            this.tomatos.forEach(function (tomato) {
-                if (showing) {
+
+        if(this.pumpkins != undefined) {
+            this.pumpkins.forEach(function(pumpkin) {
+                if(showing) {
                     return;
                 }
-                if (tomato.getBounds().contains(x, y)) {
-                    $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
-                    $('#myModal').modal('toggle');
-                    showing = true;
+                if(pumpkin.getBounds().contains(x,y)) {
+                  $('#videoId').attr('src','res/mp4/南瓜.mp4');
+                  $('#myModal').modal('toggle');
+                  showing = true;
                 }
             });
         }
+
+        if(this.tomatos != undefined) {
+            this.tomatos.forEach(function(tomato) {
+                if(showing) {
+                    return;
+                }
+                if(tomato.getBounds().contains(x,y)) {
+                  $('#videoId').attr('src','res/mp4/西红柿.mp4');
+                  $('#myModal').modal('toggle');
+                  showing = true;
+                }
+            });
+        }
+        */
     };
     GameMain.prototype.onMouseDown = function () {
-        this.player.setDestination(Laya.stage.mouseX - this.player.width / 2, Laya.stage.mouseY - this.player.height / 2);
+        /*
+        this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
+        */
         this.showVideo();
     };
     GameMain.prototype.animateTimeBased = function () {
         //console.log("haha");
         var playing = false;
-        if (this.dogs != undefined) {
-            this.dogs.forEach(function (value) {
+        /*
+        if(this.dogs != undefined) {
+            this.dogs.forEach(function(value) {
                 value.moveArround();
             });
         }
-        if (this.fogs != undefined) {
-            this.fogs.forEach(function (value) {
+        
+        if(this.fogs != undefined) {
+            this.fogs.forEach(function(value) {
                 value.moveArround();
             });
         }
+        */
         this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x, this.player.y, this.player.dx, this.player.dy, this.player.speed));
         var rect2 = this.player.getBounds();
         if (this.dogs != undefined && this.player != undefined) {
