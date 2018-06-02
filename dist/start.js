@@ -45,6 +45,45 @@ var utils;
 /**
 * name
 */
+var utils;
+(function (utils) {
+    var MediaUtil = /** @class */ (function () {
+        function MediaUtil() {
+        }
+        MediaUtil.playVideo = function (type) {
+            if ((type == 'Dog') && (MediaUtil.readyToPlay)) {
+                console.log('show video Dog');
+                $('#videoId').attr('src', 'res/mp4/狗.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+            }
+            else if ((type == 'Tomato') && (MediaUtil.readyToPlay)) {
+                console.log('show video Tomato');
+                $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+            }
+            else if ((type == 'Fog') && (MediaUtil.readyToPlay)) {
+                console.log('show video Fog');
+                $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+            }
+            else if ((type == 'Pumpkin') && (MediaUtil.readyToPlay)) {
+                console.log('show video Pumpkin');
+                $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+            }
+        };
+        MediaUtil.readyToPlay = true;
+        return MediaUtil;
+    }());
+    utils.MediaUtil = MediaUtil;
+})(utils || (utils = {}));
+/**
+* name
+*/
 var Point = Laya.Point;
 var utils;
 (function (utils) {
@@ -211,14 +250,13 @@ var entities;
             _this.width = 192;
             _this.height = 108;
             var animation = new Laya.Animation(); //创建一个 Animation 类的实例对象 animation 。
-            animation.loadAtlas("res/img/player/player.json"); //加载图集并播放
+            animation.loadAtlas("res/img/player/fighter.json"); //加载图集并播放
             //animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
             //animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
             animation.interval = 50; //设置 animation 对象的动画播放间隔时间，单位：毫秒。
             animation.play(); //播放动画。
-            _this.addChild(animation); //将 animation 对象添加到显示列表。			
+            _this.addChild(animation); //将 animation 对象添加到显示列表。
             return _this;
-            //this.loadImage("res/img/player/player1.jpg",this.x,this.y,this.width,this.height);
         }
         return Player;
     }(entities.Animal));
@@ -373,11 +411,14 @@ var Map = entities.Map;
 var Creature = entities.Creature;
 var Areas = utils.Areas;
 var Area = utils.Area;
+var MediaUtil = utils.MediaUtil;
 var Dog = entities.animals.Dog;
 var Fog = entities.animals.Fog;
 var Cat = entities.animals.Cat;
 var Pumpkin = entities.plants.Pumpkin;
 var Tomato = entities.plants.Tomato;
+var Tween = laya.utils.Tween;
+var Ease = laya.utils.Ease;
 var PointUtil = utils.PointUtil;
 var SpritesData = [
     {
@@ -498,9 +539,9 @@ var GameMain = /** @class */ (function () {
         this.player = new Player();
         Laya.stage.addChild(this.player);
         Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
+        Laya.timer.loop(1000, this, this.animateTimeBased);
         /*
         var point:Point;
-        this.playing = false;
         this.dogs = new Array(Dog.COUNT);
         this.fogs = new Array(Fog.COUNT);
         this.pumpkins = new Array(Pumpkin.COUNT);
@@ -537,36 +578,25 @@ var GameMain = /** @class */ (function () {
         Laya.stage.addChild(tomato);
         this.tomatos.push(tomato);
 
-        Laya.timer.loop(200, this, this.animateTimeBased);
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown);
         */
     };
-    GameMain.prototype.showVideo = function () {
-        var x = Laya.stage.mouseX;
-        var y = Laya.stage.mouseY;
-        var showing = false;
+    /*
+                    var rect1 = dog.getBounds();
+                    if(rect1.intersects(rect2)) {
+                      var audio = new Audio();
+                      audio.style.display = "none";
+                      audio.src = "res/audio/dog.mp3";
+                      audio.autoplay = true;
+                    }
+    */
+    GameMain.prototype.showVideoIfIntersets = function () {
+        var rect = this.player.getBounds();
         if (this.creatures != undefined) {
             this.creatures.forEach(function (creature) {
-                if (showing) {
-                    return;
-                }
-                if (creature.getBounds().contains(x, y)) {
+                if (creature.getBounds().intersects(rect)) {
                     var type = creature.type;
-                    if (type == 'Dog') {
-                        $('#videoId').attr('src', 'res/mp4/狗.mp4');
-                    }
-                    else if (type == 'Tomato') {
-                        $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
-                    }
-                    else if (type == 'Fog') {
-                        $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
-                    }
-                    else if (type == 'Pumpkin') {
-                        $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
-                    }
-                    $('#myModal').modal('toggle');
-                    console.log("show me pls");
-                    showing = true;
+                    MediaUtil.playVideo(type);
                 }
             });
         }
@@ -634,14 +664,19 @@ var GameMain = /** @class */ (function () {
         */
     };
     GameMain.prototype.onMouseDown = function () {
+        console.log('mouse down');
         /*
         this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
         */
-        this.showVideo();
+        //this.showVideo();
+        Tween.to(this.player, { x: Laya.stage.mouseX - this.player.width / 2, y: Laya.stage.mouseY - this.player.height / 2 }, 3000, Ease.backIn, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
+    };
+    GameMain.prototype.moveCompleted = function (sprite) {
+        MediaUtil.readyToPlay = true;
     };
     GameMain.prototype.animateTimeBased = function () {
-        //console.log("haha");
-        var playing = false;
+        console.log("hahhehea");
+        this.showVideoIfIntersets();
         /*
         if(this.dogs != undefined) {
             this.dogs.forEach(function(value) {
@@ -654,24 +689,23 @@ var GameMain = /** @class */ (function () {
                 value.moveArround();
             });
         }
-        */
-        this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x, this.player.y, this.player.dx, this.player.dy, this.player.speed));
+        
+        this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x,this.player.y,this.player.dx,this.player.dy,this.player.speed));
+
         var rect2 = this.player.getBounds();
-        if (this.dogs != undefined && this.player != undefined) {
-            this.dogs.forEach(function (dog) {
-                if (this.playing) {
-                    return;
-                }
+        if(this.dogs != undefined && this.player != undefined) {
+            this.dogs.forEach(function(dog) {
                 var rect1 = dog.getBounds();
-                if (rect1.intersects(rect2)) {
-                    var audio = new Audio();
-                    audio.style.display = "none";
-                    audio.src = "res/audio/dog.mp3";
-                    audio.autoplay = true;
-                    this.playing = true;
+                if(rect1.intersects(rect2)) {
+                  var audio = new Audio();
+                  audio.style.display = "none";
+                  audio.src = "res/audio/dog.mp3";
+                  audio.autoplay = true;
+                  this.playing = true;
                 }
             });
         }
+        */
     };
     return GameMain;
 }());

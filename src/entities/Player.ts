@@ -11,13 +11,12 @@ module entities{
 			this.height = 108;
 
 	 		var animation:Laya.Animation = new Laya.Animation();//创建一个 Animation 类的实例对象 animation 。
-	 		animation.loadAtlas("res/img/player/player.json");//加载图集并播放
+	 		animation.loadAtlas("res/img/player/fighter.json");//加载图集并播放
 	 		//animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
 	 		//animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
 	 		animation.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
 	 		animation.play();//播放动画。
-	 		this.addChild(animation);//将 animation 对象添加到显示列表。			
-			//this.loadImage("res/img/player/player1.jpg",this.x,this.y,this.width,this.height);
+	 		this.addChild(animation);//将 animation 对象添加到显示列表。
 		}
 
 

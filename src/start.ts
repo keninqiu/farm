@@ -6,12 +6,14 @@ import Creature = entities.Creature;
 
 import Areas = utils.Areas;
 import Area = utils.Area;
+import MediaUtil = utils.MediaUtil;
 import Dog = entities.animals.Dog;
 import Fog = entities.animals.Fog;
 import Cat = entities.animals.Cat;
 import Pumpkin = entities.plants.Pumpkin;
 import Tomato = entities.plants.Tomato;
-
+import Tween = laya.utils.Tween;
+import Ease = laya.utils.Ease;
 
 import PointUtil = utils.PointUtil;
 var SpritesData = [
@@ -116,7 +118,6 @@ class GameMain{
 
     public creatures:Array<Creature>;
     public player:Player;
-    public playing:boolean;
     constructor()
     {
         Laya.init(Laya.Browser.clientWidth,Laya.Browser.clientHeight, Laya.WebGL);
@@ -152,9 +153,9 @@ class GameMain{
         Laya.stage.addChild(this.player);
                 
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown); 
+        Laya.timer.loop(1000, this, this.animateTimeBased);
         /*
         var point:Point;
-        this.playing = false;
         this.dogs = new Array(Dog.COUNT);
         this.fogs = new Array(Fog.COUNT);
         this.pumpkins = new Array(Pumpkin.COUNT);
@@ -191,38 +192,27 @@ class GameMain{
         Laya.stage.addChild(tomato);    
         this.tomatos.push(tomato); 
 
-        Laya.timer.loop(200, this, this.animateTimeBased);
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown);                     
         */     
     }
+/*
+                var rect1 = dog.getBounds();
+                if(rect1.intersects(rect2)) {
+                  var audio = new Audio();
+                  audio.style.display = "none";
+                  audio.src = "res/audio/dog.mp3";
+                  audio.autoplay = true;     
+                }
+*/
+    private showVideoIfIntersets(): void {
 
-    private showVideo(): void {
-        var x:number = Laya.stage.mouseX;
-        var y:number = Laya.stage.mouseY;
-        var showing:boolean = false;
+        var rect = this.player.getBounds();
         if(this.creatures != undefined) {
             this.creatures.forEach(function(creature) {
-                if(showing) {
-                    return;
-                }
-                if(creature.getBounds().contains(x,y)) {
+
+                if(creature.getBounds().intersects(rect)) {
                   var type = creature.type;
-                  if(type == 'Dog') {
-                    $('#videoId').attr('src','res/mp4/狗.mp4');
-                  }
-                  else if(type == 'Tomato') {
-                    $('#videoId').attr('src','res/mp4/西红柿.mp4');
-                  }
-                  else if(type == 'Fog') {
-                    $('#videoId').attr('src','res/mp4/青蛙.mp4');
-                  }  
-                  else if(type == 'Pumpkin') {
-                    $('#videoId').attr('src','res/mp4/南瓜.mp4');
-                  }
-                  
-                  $('#myModal').modal('toggle'); 
-                  console.log("show me pls");
-                  showing = true;               
+                  MediaUtil.playVideo(type);        
                 }
             });
         }
@@ -292,14 +282,23 @@ class GameMain{
     }
 
     onMouseDown() {
+        console.log('mouse down');
         /*
         this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
         */
-        this.showVideo();
+        //this.showVideo();
+
+        Tween.to(this.player, {x:Laya.stage.mouseX - this.player.width/2,y:Laya.stage.mouseY - this.player.height/2 }, 3000, Ease.backIn, Laya.Handler.create(this,this.moveCompleted,[this.player]), 10);
+
+    }
+
+    moveCompleted(sprite:Player) {
+        MediaUtil.readyToPlay = true;
     }
     animateTimeBased() {
-        //console.log("haha");
-        var playing:boolean = false;
+        console.log("hahhehea");
+
+        this.showVideoIfIntersets();
         /*
         if(this.dogs != undefined) {
             this.dogs.forEach(function(value) {
@@ -312,15 +311,12 @@ class GameMain{
                 value.moveArround();
             });
         }    
-        */
+        
         this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x,this.player.y,this.player.dx,this.player.dy,this.player.speed));
 
         var rect2 = this.player.getBounds();
         if(this.dogs != undefined && this.player != undefined) {
             this.dogs.forEach(function(dog) {
-                if(this.playing) {
-                    return;
-                }
                 var rect1 = dog.getBounds();
                 if(rect1.intersects(rect2)) {
                   var audio = new Audio();
@@ -331,7 +327,7 @@ class GameMain{
                 }
             });
         }        
-        
+        */
     }
 }
 let game = new GameMain();

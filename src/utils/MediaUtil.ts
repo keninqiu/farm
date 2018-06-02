@@ -1,0 +1,37 @@
+/**
+* name 
+*/
+module utils{
+	export class MediaUtil{
+		public static readyToPlay:boolean = true;
+		constructor(){
+		} 
+        public static playVideo(type:string) {
+            if((type == 'Dog') && (MediaUtil.readyToPlay)) {
+                console.log('show video Dog');
+            	$('#videoId').attr('src','res/mp4/狗.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+                
+            }
+            else if((type == 'Tomato') && (MediaUtil.readyToPlay)) {
+                console.log('show video Tomato');
+                $('#videoId').attr('src','res/mp4/西红柿.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+            }
+            else if((type == 'Fog') && (MediaUtil.readyToPlay)) {
+                console.log('show video Fog');
+                $('#videoId').attr('src','res/mp4/青蛙.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false;
+            }  
+            else if((type == 'Pumpkin') && (MediaUtil.readyToPlay)) {
+                console.log('show video Pumpkin');
+                $('#videoId').attr('src','res/mp4/南瓜.mp4');
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlay = false; 
+            }        
+        }
+    }
+}

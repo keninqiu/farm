@@ -3,7 +3,7 @@
     <head>
     	<title>TypeScript Greeter</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
 
     <!-- Bootstrap CSS -->
     <!--
@@ -24,10 +24,10 @@
 				  <iframe class="embed-responsive-item fullscreen-bg__video" id="videoId" src="" allowfullscreen></iframe>
 				</div>
 		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      <div class="modal-footer" data-dismiss="modal" onclick="closeMovie()">
+		        <img src="res/img/close.png" />
 		      </div>  
-		    </div>
+		    </div>  
 		  </div>
 		</div>
 
@@ -49,6 +49,8 @@
 	    <script type="text/javascript" src="ts/libs/laya.ui.js"></script>   
 
         <script src="dist/start.js"></script>
+
+        <script src="res/js/main.js"></script>
 
         <script type="text/javascript" src="node_modules/jquery/dist/jquery.slim.min.js"></script>  
 
