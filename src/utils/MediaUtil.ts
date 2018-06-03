@@ -4,8 +4,8 @@
 import SoundManager = Laya.SoundManager;
 module utils{
 	export class MediaUtil{
-		public static readyToPlayVideo:boolean = true;
-		public static readyToPlayAudio:boolean = true;
+		public static readyToPlayVideo:boolean = false;
+		public static readyToPlayAudio:boolean = false;
 		constructor(){
 		} 
         public static playVideo(type:string) {
