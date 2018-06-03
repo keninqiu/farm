@@ -14,6 +14,7 @@ import Pumpkin = entities.plants.Pumpkin;
 import Tomato = entities.plants.Tomato;
 import Tween = laya.utils.Tween;
 import Ease = laya.utils.Ease;
+import Rectangle =  laya.maths.Rectangle;
 
 import PointUtil = utils.PointUtil;
 var SpritesData = [
@@ -148,7 +149,6 @@ class GameMain{
         var map:Map = new Map();
         Laya.stage.addChild(map);    
         this.initSprites();
-
         this.player = new Player();
         Laya.stage.addChild(this.player);
                 
@@ -204,15 +204,18 @@ class GameMain{
                   audio.autoplay = true;     
                 }
 */
-    private showVideoIfIntersets(): void {
+    private playMediaIfIntersets(): void {
 
         var rect = this.player.getBounds();
+        var rectNearBy = new Rectangle(rect.x,rect.y,rect.width*1.4,rect.height*1.4);
         if(this.creatures != undefined) {
             this.creatures.forEach(function(creature) {
-
+                var type = creature.type;
                 if(creature.getBounds().intersects(rect)) {
-                  var type = creature.type;
                   MediaUtil.playVideo(type);        
+                }
+                else if(creature.getBounds().intersects(rectNearBy)) {
+                  MediaUtil.playAudio(type);        
                 }
             });
         }
@@ -293,12 +296,13 @@ class GameMain{
     }
 
     moveCompleted(sprite:Player) {
-        MediaUtil.readyToPlay = true;
+        MediaUtil.readyToPlayVideo = true;
+        MediaUtil.readyToPlayAudio = true;
     }
     animateTimeBased() {
         console.log("hahhehea");
 
-        this.showVideoIfIntersets();
+        this.playMediaIfIntersets();
         /*
         if(this.dogs != undefined) {
             this.dogs.forEach(function(value) {

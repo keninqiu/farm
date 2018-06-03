@@ -45,38 +45,50 @@ var utils;
 /**
 * name
 */
+var SoundManager = Laya.SoundManager;
 var utils;
 (function (utils) {
     var MediaUtil = /** @class */ (function () {
         function MediaUtil() {
         }
         MediaUtil.playVideo = function (type) {
-            if ((type == 'Dog') && (MediaUtil.readyToPlay)) {
+            if ((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Dog');
                 $('#videoId').attr('src', 'res/mp4/狗.mp4');
                 $('#myModal').modal('toggle');
-                MediaUtil.readyToPlay = false;
+                MediaUtil.readyToPlayVideo = false;
             }
-            else if ((type == 'Tomato') && (MediaUtil.readyToPlay)) {
+            else if ((type == 'Tomato') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Tomato');
                 $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
                 $('#myModal').modal('toggle');
-                MediaUtil.readyToPlay = false;
+                MediaUtil.readyToPlayVideo = false;
             }
-            else if ((type == 'Fog') && (MediaUtil.readyToPlay)) {
+            else if ((type == 'Fog') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Fog');
                 $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
                 $('#myModal').modal('toggle');
-                MediaUtil.readyToPlay = false;
+                MediaUtil.readyToPlayVideo = false;
             }
-            else if ((type == 'Pumpkin') && (MediaUtil.readyToPlay)) {
+            else if ((type == 'Pumpkin') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Pumpkin');
                 $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
                 $('#myModal').modal('toggle');
-                MediaUtil.readyToPlay = false;
+                MediaUtil.readyToPlayVideo = false;
             }
         };
-        MediaUtil.readyToPlay = true;
+        MediaUtil.playAudio = function (type) {
+            if ((type == 'Dog') && (MediaUtil.readyToPlayAudio)) {
+                SoundManager.playMusic("res/audio/dog.mp3", 1, null);
+                MediaUtil.readyToPlayAudio = false;
+            }
+            else if ((type == 'Fog') && (MediaUtil.readyToPlayAudio)) {
+                SoundManager.playMusic("res/audio/fog.wav", 1, null);
+                MediaUtil.readyToPlayAudio = false;
+            }
+        };
+        MediaUtil.readyToPlayVideo = true;
+        MediaUtil.readyToPlayAudio = true;
         return MediaUtil;
     }());
     utils.MediaUtil = MediaUtil;
@@ -251,6 +263,8 @@ var entities;
             _this.height = 108;
             var animation = new Laya.Animation(); //创建一个 Animation 类的实例对象 animation 。
             animation.loadAtlas("res/img/player/fighter.json"); //加载图集并播放
+            animation.scaleX = 0.5;
+            animation.scaleY = 0.5;
             //animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
             //animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
             animation.interval = 50; //设置 animation 对象的动画播放间隔时间，单位：毫秒。
@@ -419,6 +433,7 @@ var Pumpkin = entities.plants.Pumpkin;
 var Tomato = entities.plants.Tomato;
 var Tween = laya.utils.Tween;
 var Ease = laya.utils.Ease;
+var Rectangle = laya.maths.Rectangle;
 var PointUtil = utils.PointUtil;
 var SpritesData = [
     {
@@ -590,13 +605,17 @@ var GameMain = /** @class */ (function () {
                       audio.autoplay = true;
                     }
     */
-    GameMain.prototype.showVideoIfIntersets = function () {
+    GameMain.prototype.playMediaIfIntersets = function () {
         var rect = this.player.getBounds();
+        var rectNearBy = new Rectangle(rect.x, rect.y, rect.width * 1.4, rect.height * 1.4);
         if (this.creatures != undefined) {
             this.creatures.forEach(function (creature) {
+                var type = creature.type;
                 if (creature.getBounds().intersects(rect)) {
-                    var type = creature.type;
                     MediaUtil.playVideo(type);
+                }
+                else if (creature.getBounds().intersects(rectNearBy)) {
+                    MediaUtil.playAudio(type);
                 }
             });
         }
@@ -672,11 +691,12 @@ var GameMain = /** @class */ (function () {
         Tween.to(this.player, { x: Laya.stage.mouseX - this.player.width / 2, y: Laya.stage.mouseY - this.player.height / 2 }, 3000, Ease.backIn, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
     };
     GameMain.prototype.moveCompleted = function (sprite) {
-        MediaUtil.readyToPlay = true;
+        MediaUtil.readyToPlayVideo = true;
+        MediaUtil.readyToPlayAudio = true;
     };
     GameMain.prototype.animateTimeBased = function () {
         console.log("hahhehea");
-        this.showVideoIfIntersets();
+        this.playMediaIfIntersets();
         /*
         if(this.dogs != undefined) {
             this.dogs.forEach(function(value) {

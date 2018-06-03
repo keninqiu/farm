@@ -12,6 +12,8 @@ module entities{
 
 	 		var animation:Laya.Animation = new Laya.Animation();//创建一个 Animation 类的实例对象 animation 。
 	 		animation.loadAtlas("res/img/player/fighter.json");//加载图集并播放
+	 		animation.scaleX = 0.5;
+	 		animation.scaleY = 0.5;
 	 		//animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
 	 		//animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
 	 		animation.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
