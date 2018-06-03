@@ -688,7 +688,7 @@ var GameMain = /** @class */ (function () {
         this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
         */
         //this.showVideo();
-        Tween.to(this.player, { x: Laya.stage.mouseX - this.player.width / 2, y: Laya.stage.mouseY - this.player.height / 2 }, 3000, Ease.backIn, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
+        Tween.to(this.player, { x: Laya.stage.mouseX - this.player.width / 2, y: Laya.stage.mouseY - this.player.height / 2 }, 5000, null, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
     };
     GameMain.prototype.moveCompleted = function (sprite) {
         MediaUtil.readyToPlayVideo = true;

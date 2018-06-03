@@ -291,7 +291,7 @@ class GameMain{
         */
         //this.showVideo();
 
-        Tween.to(this.player, {x:Laya.stage.mouseX - this.player.width/2,y:Laya.stage.mouseY - this.player.height/2 }, 3000, Ease.backIn, Laya.Handler.create(this,this.moveCompleted,[this.player]), 10);
+        Tween.to(this.player, {x:Laya.stage.mouseX - this.player.width/2,y:Laya.stage.mouseY - this.player.height/2 }, 4000, null, Laya.Handler.create(this,this.moveCompleted,[this.player]), 10);
 
     }
 
