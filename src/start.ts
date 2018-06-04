@@ -117,8 +117,9 @@ class GameMain{
     public pumpkins:Array<Pumpkin>;
     public tomatos:Array<Tomato>;
 
-    public creatures:Array<Creature>;
+    public creatures:Creature[];
     public player:Player;
+    public tweenObj:Tween;
     constructor()
     {
         Laya.init(Laya.Browser.clientWidth,Laya.Browser.clientHeight, Laya.WebGL);
@@ -128,7 +129,7 @@ class GameMain{
         Laya.stage.fullScreenEnabled = true;
     }
     initSprites() {
-        this.creatures = new Array(Creature.COUNT);
+        this.creatures = new Array(SpritesData.length);
         for(var i=0;i<SpritesData.length;i++)  {
             var spriteData = SpritesData[i];
             console.log(spriteData.type);
@@ -140,7 +141,7 @@ class GameMain{
                 spriteData.width,
                 spriteData.height
             );
-            this.creatures.push(sprite);
+            this.creatures[i] = sprite;
             Laya.stage.addChild(sprite);
             
         };
@@ -153,7 +154,7 @@ class GameMain{
         Laya.stage.addChild(this.player);
                 
         Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown); 
-        Laya.timer.loop(1000, this, this.animateTimeBased);
+        
         /*
         var point:Point;
         this.dogs = new Array(Dog.COUNT);
@@ -205,19 +206,34 @@ class GameMain{
                 }
 */
     private playMediaIfIntersets(): void {
-
+        console.log('this.tweenObj2=');
+        console.log(this.tweenObj);
         var rect = this.player.getBounds();
         var rectNearBy = new Rectangle(rect.x,rect.y,rect.width*1.4,rect.height*1.4);
         if(this.creatures != undefined) {
-            this.creatures.forEach(function(creature) {
+            for(var i=0;i<this.creatures.length;i++) {
+                var creature = this.creatures[i];
                 var type = creature.type;
                 if(creature.getBounds().intersects(rect)) {
-                  MediaUtil.playVideo(type);        
+                  if(type == MediaUtil.type) {
+                    return;
+                  }                        
+                  if((type == 'Dog') || (type == 'Fog') || (type == 'Tomato')|| (type == 'Pumpkin')) {  
+                    MediaUtil.playVideo(type);                
+                    if(this.tweenObj != null && this.tweenObj != undefined) {
+                      console.log('clear do');
+                      Laya.timer.clear(this,this.animateTimeBased);
+                      this.tweenObj.pause();
+                    }
+                    
+                    
+                  }
+                        
                 }
                 else if(creature.getBounds().intersects(rectNearBy)) {
                   MediaUtil.playAudio(type);        
                 }
-            });
+            }
         }
 
         /*
@@ -290,14 +306,24 @@ class GameMain{
         this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
         */
         //this.showVideo();
-
-        Tween.to(this.player, {x:Laya.stage.mouseX - this.player.width/2,y:Laya.stage.mouseY - this.player.height/2 }, 4000, null, Laya.Handler.create(this,this.moveCompleted,[this.player]), 10);
-
+        Laya.timer.loop(1000, this, this.animateTimeBased);
+        var x:number = this.player.x;
+        var y:number = this.player.y;
+        var dx:number = Laya.stage.mouseX - this.player.width/2;
+        var dy:number = Laya.stage.mouseY - this.player.height/2;
+        var length = Math.sqrt((dy-y)*(dy-y) + (dx-x)*(dx-x));
+        console.log('length=' + length);
+        this.tweenObj = Tween.to(this.player, {x: dx,y: dy}, 10*length, null, Laya.Handler.create(this,this.moveCompleted,[this.player]), 10);
+        console.log('this.tweenObj1=');
+        console.log(this.tweenObj);
+        MediaUtil.readyToPlayVideo = true;
+        MediaUtil.readyToPlayAudio = true;
+        
     }
 
     moveCompleted(sprite:Player) {
-        MediaUtil.readyToPlayVideo = true;
-        MediaUtil.readyToPlayAudio = true;
+//        MediaUtil.readyToPlayVideo = true;
+//        MediaUtil.readyToPlayAudio = true;
     }
     animateTimeBased() {
         console.log("hahhehea");

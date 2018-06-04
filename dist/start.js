@@ -52,29 +52,35 @@ var utils;
         function MediaUtil() {
         }
         MediaUtil.playVideo = function (type) {
+            console.log('start playVideo');
+            console.log('type=' + type);
             if ((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Dog');
                 $('#videoId').attr('src', 'res/mp4/狗.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
+                MediaUtil.type = type;
             }
             else if ((type == 'Tomato') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Tomato');
                 $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
+                MediaUtil.type = type;
             }
             else if ((type == 'Fog') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Fog');
                 $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
+                MediaUtil.type = type;
             }
             else if ((type == 'Pumpkin') && (MediaUtil.readyToPlayVideo)) {
                 console.log('show video Pumpkin');
                 $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
+                MediaUtil.type = type;
             }
         };
         MediaUtil.playAudio = function (type) {
@@ -89,6 +95,7 @@ var utils;
         };
         MediaUtil.readyToPlayVideo = false;
         MediaUtil.readyToPlayAudio = false;
+        MediaUtil.type = '';
         return MediaUtil;
     }());
     utils.MediaUtil = MediaUtil;
@@ -537,12 +544,12 @@ var GameMain = /** @class */ (function () {
         Laya.stage.fullScreenEnabled = true;
     }
     GameMain.prototype.initSprites = function () {
-        this.creatures = new Array(Creature.COUNT);
+        this.creatures = new Array(SpritesData.length);
         for (var i = 0; i < SpritesData.length; i++) {
             var spriteData = SpritesData[i];
             console.log(spriteData.type);
             var sprite = new Creature(spriteData.type, spriteData.x, spriteData.y, spriteData.width, spriteData.height);
-            this.creatures.push(sprite);
+            this.creatures[i] = sprite;
             Laya.stage.addChild(sprite);
         }
         ;
@@ -554,7 +561,6 @@ var GameMain = /** @class */ (function () {
         this.player = new Player();
         Laya.stage.addChild(this.player);
         Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
-        Laya.timer.loop(1000, this, this.animateTimeBased);
         /*
         var point:Point;
         this.dogs = new Array(Dog.COUNT);
@@ -606,18 +612,31 @@ var GameMain = /** @class */ (function () {
                     }
     */
     GameMain.prototype.playMediaIfIntersets = function () {
+        console.log('this.tweenObj2=');
+        console.log(this.tweenObj);
         var rect = this.player.getBounds();
         var rectNearBy = new Rectangle(rect.x, rect.y, rect.width * 1.4, rect.height * 1.4);
         if (this.creatures != undefined) {
-            this.creatures.forEach(function (creature) {
+            for (var i = 0; i < this.creatures.length; i++) {
+                var creature = this.creatures[i];
                 var type = creature.type;
                 if (creature.getBounds().intersects(rect)) {
-                    MediaUtil.playVideo(type);
+                    if (type == MediaUtil.type) {
+                        return;
+                    }
+                    if ((type == 'Dog') || (type == 'Fog') || (type == 'Tomato') || (type == 'Pumpkin')) {
+                        MediaUtil.playVideo(type);
+                        if (this.tweenObj != null && this.tweenObj != undefined) {
+                            console.log('clear do');
+                            Laya.timer.clear(this, this.animateTimeBased);
+                            this.tweenObj.pause();
+                        }
+                    }
                 }
                 else if (creature.getBounds().intersects(rectNearBy)) {
                     MediaUtil.playAudio(type);
                 }
-            });
+            }
         }
         /*
         console.log("x="+x+"y="+y);
@@ -688,11 +707,22 @@ var GameMain = /** @class */ (function () {
         this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
         */
         //this.showVideo();
-        Tween.to(this.player, { x: Laya.stage.mouseX - this.player.width / 2, y: Laya.stage.mouseY - this.player.height / 2 }, 4000, null, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
-    };
-    GameMain.prototype.moveCompleted = function (sprite) {
+        Laya.timer.loop(1000, this, this.animateTimeBased);
+        var x = this.player.x;
+        var y = this.player.y;
+        var dx = Laya.stage.mouseX - this.player.width / 2;
+        var dy = Laya.stage.mouseY - this.player.height / 2;
+        var length = Math.sqrt((dy - y) * (dy - y) + (dx - x) * (dx - x));
+        console.log('length=' + length);
+        this.tweenObj = Tween.to(this.player, { x: dx, y: dy }, 10 * length, null, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
+        console.log('this.tweenObj1=');
+        console.log(this.tweenObj);
         MediaUtil.readyToPlayVideo = true;
         MediaUtil.readyToPlayAudio = true;
+    };
+    GameMain.prototype.moveCompleted = function (sprite) {
+        //        MediaUtil.readyToPlayVideo = true;
+        //        MediaUtil.readyToPlayAudio = true;
     };
     GameMain.prototype.animateTimeBased = function () {
         console.log("hahhehea");
