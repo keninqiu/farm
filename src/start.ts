@@ -127,6 +127,7 @@ class GameMain{
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.scaleMode = "showall";
         Laya.stage.fullScreenEnabled = true;
+        Laya.stage.screenMode = "horizontal";
     }
     initSprites() {
         this.creatures = new Array(SpritesData.length);
