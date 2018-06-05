@@ -234,8 +234,16 @@ var entities;
         __extends(Map, _super);
         function Map() {
             var _this = _super.call(this) || this;
-            _this.loadImage("res/img/bg.png", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
+            _this.loadImage("res/img/bg.png", 0, 0);
             return _this;
+            /*
+            if(Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
+                this.loadImage("res/img/bg.png",0,0,Laya.Browser.clientHeight,Laya.Browser.clientWidth);
+            }
+            else {
+                this.loadImage("res/img/bg.png",0,0,Laya.Browser.clientWidth,Laya.Browser.clientHeight);
+            }
+            */
         }
         return Map;
     }(Laya.Sprite));
