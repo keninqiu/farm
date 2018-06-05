@@ -133,9 +133,8 @@ class GameMain{
         }
         else {
             Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
-            Laya.stage.fullScreenEnabled = true;
         }
-        
+        Laya.stage.fullScreenEnabled = true;
 
     }
     initSprites() {

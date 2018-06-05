@@ -546,8 +546,8 @@ var GameMain = /** @class */ (function () {
         }
         else {
             Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
-            Laya.stage.fullScreenEnabled = true;
         }
+        Laya.stage.fullScreenEnabled = true;
     }
     GameMain.prototype.initSprites = function () {
         this.creatures = new Array(SpritesData.length);
