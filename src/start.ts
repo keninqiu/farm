@@ -127,7 +127,13 @@ class GameMain{
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
 
         Laya.stage.scaleMode = "showall";
-        Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
+        
+        if(Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
+            Laya.stage.screenMode = Laya.Stage.SCREEN_VERTICAL;
+        }
+        else {
+            Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
+        }
         Laya.stage.fullScreenEnabled = true;
 
     }
