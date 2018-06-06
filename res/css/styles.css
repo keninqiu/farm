@@ -13,3 +13,17 @@
 	text-align: center;
 	margin: 5px auto;
 }
+
+.modal-footer-portrait {
+	border: none !important;
+	padding: 0px;
+	text-align: center;
+	margin: 5px auto;	
+	display:none;
+}
+
+@media all and (orientation: portrait) {
+	.modal-footer-portrait {
+		display:block;
+	}
+}
