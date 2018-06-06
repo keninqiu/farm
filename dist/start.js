@@ -234,13 +234,16 @@ var entities;
         __extends(Map, _super);
         function Map() {
             var _this = _super.call(this) || this;
-            if (Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
-                _this.loadImage("res/img/bg.png", 0, 0, Laya.Browser.clientHeight, Laya.Browser.clientWidth);
+            _this.loadImage("res/img/bg.png", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
+            return _this;
+            /*
+            if(Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
+                this.loadImage("res/img/bg.png",0,0,Laya.Browser.clientHeight,Laya.Browser.clientWidth);
             }
             else {
-                _this.loadImage("res/img/bg.png", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
+                this.loadImage("res/img/bg.png",0,0,Laya.Browser.clientWidth,Laya.Browser.clientHeight);
             }
-            return _this;
+            */
         }
         return Map;
     }(Laya.Sprite));
@@ -546,12 +549,14 @@ var GameMain = /** @class */ (function () {
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.scaleMode = "showall";
-        if (Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
+        /*
+        if(Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
             Laya.stage.screenMode = Laya.Stage.SCREEN_VERTICAL;
         }
         else {
             Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
         }
+        */
         Laya.stage.fullScreenEnabled = true;
     }
     GameMain.prototype.initSprites = function () {
