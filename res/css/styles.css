@@ -22,7 +22,7 @@
 	display:none;
 }
 
-@media all and (orientation: portrait) {
+@media all and (orientation: landscape) {
 	.modal-footer-portrait {
 		display:block;
 	}
