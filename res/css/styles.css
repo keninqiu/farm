@@ -10,5 +10,6 @@
 .modal-footer {
 	border: none !important;
 	padding: 0px;
-	margin: 1px auto;
+	text-align: center;
+	margin: 5px auto;
 }
