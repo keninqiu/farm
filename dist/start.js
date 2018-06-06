@@ -52,31 +52,25 @@ var utils;
         function MediaUtil() {
         }
         MediaUtil.playVideo = function (type) {
-            console.log('start playVideo');
-            console.log('type=' + type);
             if ((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Dog');
                 $('#videoId').attr('src', 'res/mp4/狗.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if ((type == 'Tomato') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Tomato');
                 $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if ((type == 'Fog') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Fog');
                 $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if ((type == 'Pumpkin') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Pumpkin');
                 $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
@@ -196,7 +190,7 @@ var entities;
         function Creature(type, x, y, width, height) {
             var _this = _super.call(this) || this;
             _this.type = type;
-            _this.visible = false;
+            _this.visible = true;
             x = x * Laya.Browser.clientWidth / 1920;
             y = y * Laya.Browser.clientHeight / 1080;
             _this.autoSize = true;
@@ -267,6 +261,8 @@ var entities;
 /**
 * name
 */
+var Animation = Laya.Animation;
+var Handler = Laya.Handler;
 var entities;
 (function (entities) {
     var Player = /** @class */ (function (_super) {
@@ -274,19 +270,50 @@ var entities;
         function Player() {
             var _this = _super.call(this, 0, 0) || this;
             _this.dx = _this.dy = 0;
-            _this.width = 192;
-            _this.height = 108;
-            var animation = new Laya.Animation(); //创建一个 Animation 类的实例对象 animation 。
-            animation.loadAtlas("res/img/player/fighter.json"); //加载图集并播放
-            animation.scaleX = 0.5;
-            animation.scaleY = 0.5;
-            //animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-            //animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-            animation.interval = 50; //设置 animation 对象的动画播放间隔时间，单位：毫秒。
-            animation.play(); //播放动画。
-            _this.addChild(animation); //将 animation 对象添加到显示列表。
+            _this.x = 750 * Laya.Browser.clientWidth / 1920;
+            _this.y = 520 * Laya.Browser.clientHeight / 1080;
+            _this.roleAni = new Animation(); //创建一个 Animation 类的实例对象 animation 。
+            _this.roleAni.loadAtlas("res/img/player/后面序列.atlas", Handler.create(_this, _this.onLoaded)); //加载图集并播放
+            _this.roleAni.scaleX = 0.25;
+            _this.roleAni.scaleY = 0.25;
+            _this.roleAni.interval = 50; //设置 animation 对象的动画播放间隔时间，单位：毫秒。
+            _this.roleAni.play(); //播放动画。
+            _this.addChild(_this.roleAni); //将 animation 对象添加到显示列表。
             return _this;
         }
+        Player.prototype.onLoaded = function () {
+            //获得动画矩形边界
+            var bounds = this.getBounds();
+            this.size(bounds.width * Laya.Browser.clientWidth / 1920, bounds.height * Laya.Browser.clientHeight / 1080);
+            console.log('this.width=' + this.width);
+        };
+        Player.prototype.tweenTo = function (dx, dy) {
+            if (dx == 0 && dy == 0) {
+                return;
+            }
+            var x = this.x;
+            var y = this.y;
+            var deltaX = Math.abs(dx - x);
+            var deltaY = Math.abs(dy - y);
+            if (deltaX < deltaY) {
+                if (dy < y) {
+                    this.roleAni.loadAtlas("res/img/player/后面序列.atlas");
+                }
+                else {
+                    this.roleAni.loadAtlas("res/img/player/正面序列.atlas");
+                }
+            }
+            else {
+                if (dx < x) {
+                    this.roleAni.loadAtlas("res/img/player/侧左序列.atlas");
+                }
+                else {
+                    this.roleAni.loadAtlas("res/img/player/侧右序列.atlas");
+                }
+            }
+            var length = Math.sqrt((dy - y) * (dy - y) + (dx - x) * (dx - x));
+            return Tween.to(this, { x: dx, y: dy }, 10 * length, null, null, 10);
+        };
         return Player;
     }(entities.Animal));
     entities.Player = Player;
@@ -563,7 +590,6 @@ var GameMain = /** @class */ (function () {
         this.creatures = new Array(SpritesData.length);
         for (var i = 0; i < SpritesData.length; i++) {
             var spriteData = SpritesData[i];
-            console.log(spriteData.type);
             var sprite = new Creature(spriteData.type, spriteData.x, spriteData.y, spriteData.width, spriteData.height);
             this.creatures[i] = sprite;
             Laya.stage.addChild(sprite);
@@ -576,74 +602,29 @@ var GameMain = /** @class */ (function () {
         this.initSprites();
         this.player = new Player();
         Laya.stage.addChild(this.player);
-        Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
-        /*
-        var point:Point;
-        this.dogs = new Array(Dog.COUNT);
-        this.fogs = new Array(Fog.COUNT);
-        this.pumpkins = new Array(Pumpkin.COUNT);
-        this.tomatos = new Array(Tomato.COUNT);
-        var map:Map = new Map();
-        Laya.stage.addChild(map);
-
-        
-        var cat:Cat = new Cat(100,100);
-        Laya.stage.addChild(cat);
-
-        
-        var dogsArea:Area = Areas.getDogsArea();
-        var fogsArea:Area = Areas.getFogsArea();
-        for(var i=0;i<Dog.COUNT;i++) {
-            point = PointUtil.getRandPointWithin(Areas.getDogsArea());
-            var dog:Dog = new Dog(point.x,point.y);
-            Laya.stage.addChild(dog);
-            this.dogs.push(dog);
-        }
-        
-        for(var i=0;i<Fog.COUNT;i++) {
-            point = PointUtil.getRandPointWithin(Areas.getFogsArea());
-            var fog:Fog = new Fog(point.x,point.y);
-            Laya.stage.addChild(fog);
-            this.fogs.push(fog);
-        }
-        
-        var pumpkin:Pumpkin = new Pumpkin(350,150);
-        Laya.stage.addChild(pumpkin);
-        this.pumpkins.push(pumpkin);
-
-        var tomato:Tomato = new Tomato(350,50);
-        Laya.stage.addChild(tomato);
-        this.tomatos.push(tomato);
-
-        Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown);
-        */
+        Laya.stage.on(Laya.Event.CLICK, this, this.onMouseDown);
     };
-    /*
-                    var rect1 = dog.getBounds();
-                    if(rect1.intersects(rect2)) {
-                      var audio = new Audio();
-                      audio.style.display = "none";
-                      audio.src = "res/audio/dog.mp3";
-                      audio.autoplay = true;
-                    }
-    */
     GameMain.prototype.playMediaIfIntersets = function () {
-        console.log('this.tweenObj2=');
-        console.log(this.tweenObj);
         var rect = this.player.getBounds();
+        //var rect = new Rectangle(this.player.x,this.player.y,this.player.width,this.player.height);
         var rectNearBy = new Rectangle(rect.x, rect.y, rect.width * 1.4, rect.height * 1.4);
         if (this.creatures != undefined) {
             for (var i = 0; i < this.creatures.length; i++) {
                 var creature = this.creatures[i];
                 var type = creature.type;
-                if (creature.getBounds().intersects(rect)) {
+                var rectCreture = creature.getBounds();
+                //var rectCreture:Rectangle = new Rectangle(creature.x,creature.y,creature.width,creature.height);
+                if (rectCreture.intersects(rect)) {
+                    console.log('rect=');
+                    console.log(rect);
+                    console.log('rectCreture=');
+                    console.log(rectCreture);
                     if (type == MediaUtil.type) {
                         return;
                     }
                     if ((type == 'Dog') || (type == 'Fog') || (type == 'Tomato') || (type == 'Pumpkin')) {
                         MediaUtil.playVideo(type);
                         if (this.tweenObj != null && this.tweenObj != undefined) {
-                            console.log('clear do');
                             Laya.timer.clear(this, this.animateTimeBased);
                             this.tweenObj.pause();
                         }
@@ -654,124 +635,17 @@ var GameMain = /** @class */ (function () {
                 }
             }
         }
-        /*
-        console.log("x="+x+"y="+y);
-
-        var realX:number = x*1920/Laya.Browser.clientWidth;
-        var realY:number = y*1080/Laya.Browser.clientHeight;
-
-        console.log("realX="+realX+"realY="+realY);
-        */
-        /*
-        var showing:boolean = false;
-        if(this.dogs != undefined) {
-            this.dogs.forEach(function(dog) {
-                if(showing) {
-                    return;
-                }
-                if(dog.getBounds().contains(x,y)) {
-                  $('#videoId').attr('src','res/mp4/狗.mp4');
-                  $('#myModal').modal('toggle');
-                  showing = true;
-                }
-            });
-        }
-
-        if(this.fogs != undefined) {
-            this.fogs.forEach(function(fog) {
-                if(showing) {
-                    return;
-                }
-                if(fog.getBounds().contains(x,y)) {
-                  $('#videoId').attr('src','res/mp4/青蛙.mp4');
-                  $('#myModal').modal('toggle');
-                  showing = true;
-                }
-            });
-        }
-
-        if(this.pumpkins != undefined) {
-            this.pumpkins.forEach(function(pumpkin) {
-                if(showing) {
-                    return;
-                }
-                if(pumpkin.getBounds().contains(x,y)) {
-                  $('#videoId').attr('src','res/mp4/南瓜.mp4');
-                  $('#myModal').modal('toggle');
-                  showing = true;
-                }
-            });
-        }
-
-        if(this.tomatos != undefined) {
-            this.tomatos.forEach(function(tomato) {
-                if(showing) {
-                    return;
-                }
-                if(tomato.getBounds().contains(x,y)) {
-                  $('#videoId').attr('src','res/mp4/西红柿.mp4');
-                  $('#myModal').modal('toggle');
-                  showing = true;
-                }
-            });
-        }
-        */
     };
-    GameMain.prototype.onMouseDown = function () {
-        console.log('mouse down');
-        /*
-        this.player.setDestination(Laya.stage.mouseX - this.player.width/2,Laya.stage.mouseY - this.player.height/2);
-        */
-        //this.showVideo();
+    GameMain.prototype.onMouseDown = function (parm) {
         Laya.timer.loop(1000, this, this.animateTimeBased);
-        var x = this.player.x;
-        var y = this.player.y;
-        var dx = Laya.stage.mouseX - this.player.width / 2;
-        var dy = Laya.stage.mouseY - this.player.height / 2;
-        var length = Math.sqrt((dy - y) * (dy - y) + (dx - x) * (dx - x));
-        console.log('length=' + length);
-        this.tweenObj = Tween.to(this.player, { x: dx, y: dy }, 10 * length, null, Laya.Handler.create(this, this.moveCompleted, [this.player]), 10);
-        console.log('this.tweenObj1=');
-        console.log(this.tweenObj);
+        this.tweenObj = this.player.tweenTo(Laya.stage.mouseX, Laya.stage.mouseY);
         MediaUtil.readyToPlayVideo = true;
         MediaUtil.readyToPlayAudio = true;
     };
     GameMain.prototype.moveCompleted = function (sprite) {
-        //        MediaUtil.readyToPlayVideo = true;
-        //        MediaUtil.readyToPlayAudio = true;
     };
     GameMain.prototype.animateTimeBased = function () {
-        console.log("hahhehea");
         this.playMediaIfIntersets();
-        /*
-        if(this.dogs != undefined) {
-            this.dogs.forEach(function(value) {
-                value.moveArround();
-            });
-        }
-        
-        if(this.fogs != undefined) {
-            this.fogs.forEach(function(value) {
-                value.moveArround();
-            });
-        }
-        
-        this.player.moveTo(PointUtil.nextPositionForDestination(this.player.x,this.player.y,this.player.dx,this.player.dy,this.player.speed));
-
-        var rect2 = this.player.getBounds();
-        if(this.dogs != undefined && this.player != undefined) {
-            this.dogs.forEach(function(dog) {
-                var rect1 = dog.getBounds();
-                if(rect1.intersects(rect2)) {
-                  var audio = new Audio();
-                  audio.style.display = "none";
-                  audio.src = "res/audio/dog.mp3";
-                  audio.autoplay = true;
-                  this.playing = true;
-                }
-            });
-        }
-        */
     };
     return GameMain;
 }());

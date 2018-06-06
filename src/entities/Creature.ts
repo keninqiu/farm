@@ -5,7 +5,7 @@ module entities{
 		constructor(type:string,x:number,y:number,width:number,height:number){
 			super();
 			this.type = type;
-			this.visible = false;
+			this.visible = true;
 			x = x * Laya.Browser.clientWidth/1920;
 			y = y * Laya.Browser.clientHeight/1080;
 			this.autoSize = true;

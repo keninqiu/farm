@@ -1,28 +1,67 @@
 /**
 * name 
 */
+import Animation = Laya.Animation;
+import Handler = Laya.Handler;
+
 module entities{
 	export class Player extends Animal{
-
+		roleAni:Animation;
 		constructor(){
 			super(0,0);
 			this.dx = this.dy = 0;
-			this.width = 192;
-			this.height = 108;
 
-	 		var animation:Laya.Animation = new Laya.Animation();//创建一个 Animation 类的实例对象 animation 。
-	 		animation.loadAtlas("res/img/player/fighter.json");//加载图集并播放
-	 		animation.scaleX = 0.5;
-	 		animation.scaleY = 0.5;
-	 		//animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-	 		//animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-	 		animation.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
-	 		animation.play();//播放动画。
-	 		this.addChild(animation);//将 animation 对象添加到显示列表。
+			this.x = 750 * Laya.Browser.clientWidth/1920;
+			this.y = 520 * Laya.Browser.clientHeight/1080;
+
+	 		this.roleAni = new Animation();//创建一个 Animation 类的实例对象 animation 。
+	 		this.roleAni.loadAtlas("res/img/player/后面序列.atlas",Handler.create(this,this.onLoaded));//加载图集并播放
+	 		this.roleAni.scaleX = 0.25;
+	 		this.roleAni.scaleY = 0.25;
+	 		this.roleAni.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
+	 		this.roleAni.play();//播放动画。
+	 		this.addChild(this.roleAni);//将 animation 对象添加到显示列表。
+
+
+		}
+
+		onLoaded():void {
+				//获得动画矩形边界
+			var bounds:Rectangle=this.getBounds();
+			this.size(bounds.width * Laya.Browser.clientWidth/1920,bounds.height * Laya.Browser.clientHeight/1080);
+			console.log('this.width=' + this.width);
 		}
 
 
+		tweenTo(dx:number,dy:number):Tween {
+			if(dx == 0 && dy == 0) {
+				return;
+			}
+	        var x:number = this.x;
+	        var y:number = this.y;
 
+	        var deltaX:number = Math.abs(dx-x);
+	        var deltaY:number = Math.abs(dy-y);
+	        if(deltaX < deltaY) {
+	        	if(dy < y) {
+	        		this.roleAni.loadAtlas("res/img/player/后面序列.atlas");
+	        	}
+	        	else {
+	        		this.roleAni.loadAtlas("res/img/player/正面序列.atlas");
+	        	}
+	        }
+	        else {
+	        	if(dx < x) {
+	        		this.roleAni.loadAtlas("res/img/player/侧左序列.atlas");
+	        	}
+	        	else {
+	        		this.roleAni.loadAtlas("res/img/player/侧右序列.atlas");
+	        	}
+	        	
+	        }
+	        var length = Math.sqrt((dy-y)*(dy-y) + (dx-x)*(dx-x));
+	        return Tween.to(this, {x: dx,y: dy}, 10*length, null, null, 10);		
+		}
 	}
 }
 

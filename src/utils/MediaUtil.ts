@@ -10,32 +10,26 @@ module utils{
 		constructor(){
 		} 
         public static playVideo(type:string) {
-            console.log('start playVideo');
-            console.log('type=' + type);
 
             if((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Dog');
             	$('#videoId').attr('src','res/mp4/狗.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false; 
                 MediaUtil.type = type;    
             }
             else if((type == 'Tomato') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Tomato');
                 $('#videoId').attr('src','res/mp4/西红柿.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if((type == 'Fog') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Fog');
                 $('#videoId').attr('src','res/mp4/青蛙.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }  
             else if((type == 'Pumpkin') && (MediaUtil.readyToPlayVideo)) {
-                console.log('show video Pumpkin');
                 $('#videoId').attr('src','res/mp4/南瓜.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false; 
