@@ -291,6 +291,13 @@ class GameMain{
                 }
             }
         }
+        if(this.creatures != undefined) {
+            var rectBarrier2 = this.creatures[12].getBounds();
+            if(rectBarrier2.intersects(rect)) {
+                this.tweenObj.pause();
+                return;
+            }            
+        }
     }
     private playMediaIfIntersets(): void {
         var rect = this.player.getBounds();

@@ -786,6 +786,13 @@ var GameMain = /** @class */ (function () {
                 }
             }
         }
+        if (this.creatures != undefined) {
+            var rectBarrier2 = this.creatures[12].getBounds();
+            if (rectBarrier2.intersects(rect)) {
+                this.tweenObj.pause();
+                return;
+            }
+        }
     };
     GameMain.prototype.playMediaIfIntersets = function () {
         var rect = this.player.getBounds();
