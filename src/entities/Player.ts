@@ -13,7 +13,12 @@ module entities{
 
 			this.x = 750 * Laya.Browser.clientWidth/1920;
 			this.y = 520 * Laya.Browser.clientHeight/1080;
-
+			/*
+			console.log('clientWidth=' + Laya.Browser.clientWidth);
+			console.log('clientHeight=' + Laya.Browser.clientHeight);
+			this.x = 1100;
+			this.y = 100;
+			*/
 	 		this.roleAni = new Animation();//创建一个 Animation 类的实例对象 animation 。
 	 		this.roleAni.loadAtlas("res/img/player/后面序列.atlas",Handler.create(this,this.onLoaded));//加载图集并播放
 	 		this.roleAni.scaleX = 0.25;

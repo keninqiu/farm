@@ -185,12 +185,75 @@ var entities;
 })(entities || (entities = {}));
 var entities;
 (function (entities) {
+    var Barrier = /** @class */ (function (_super) {
+        __extends(Barrier, _super);
+        function Barrier(type, x, y, width, height) {
+            var _this = _super.call(this) || this;
+            _this.type = type;
+            _this.visible = false;
+            x = x * Laya.Browser.clientWidth / 1920;
+            y = y * Laya.Browser.clientHeight / 1080;
+            _this.autoSize = true;
+            width = width * Laya.Browser.clientWidth / 1920;
+            height = height * Laya.Browser.clientHeight / 1080;
+            _this.x = x;
+            _this.y = y;
+            _this.width = width;
+            _this.height = height;
+            if (type == 'House') {
+                _this.loadImage("res/img/barriers/house.png", x, y, width, height);
+            }
+            else if (type == 'LeftBottom') {
+                _this.loadImage("res/img/barriers/left-bottom.png", x, y, width, height);
+            }
+            else if (type == 'Barrier3') {
+                _this.loadImage("res/img/barriers/barrier3.png", x, y, width, height);
+            }
+            else if (type == 'Barrier4') {
+                _this.loadImage("res/img/barriers/barrier4.png", x, y, width, height);
+            }
+            else if (type == 'Barrier5') {
+                _this.loadImage("res/img/barriers/barrier5.png", x, y, width, height);
+            }
+            else if (type == 'Barrier6') {
+                _this.loadImage("res/img/barriers/barrier6.png", x, y, width, height);
+            }
+            else if (type == 'Barrier7') {
+                _this.loadImage("res/img/barriers/barrier7.png", x, y, width, height);
+            }
+            else if (type == 'Barrier8') {
+                _this.loadImage("res/img/barriers/barrier8.png", x, y, width, height);
+            }
+            else if (type == 'Barrier9') {
+                _this.loadImage("res/img/barriers/barrier9.png", x, y, width, height);
+            }
+            else if (type == 'Barrier10') {
+                _this.loadImage("res/img/barriers/barrier10.png", x, y, width, height);
+            }
+            else if (type == 'Barrier11') {
+                _this.loadImage("res/img/barriers/barrier11.png", x, y, width, height);
+            }
+            else if (type == 'Barrier12') {
+                _this.loadImage("res/img/barriers/barrier12.png", x, y, width, height);
+            }
+            else if (type == 'Barrier13') {
+                _this.loadImage("res/img/barriers/barrier13.png", x, y, width, height);
+            }
+            return _this;
+        }
+        Barrier.COUNT = 20;
+        return Barrier;
+    }(Laya.Sprite));
+    entities.Barrier = Barrier;
+})(entities || (entities = {}));
+var entities;
+(function (entities) {
     var Creature = /** @class */ (function (_super) {
         __extends(Creature, _super);
         function Creature(type, x, y, width, height) {
             var _this = _super.call(this) || this;
             _this.type = type;
-            _this.visible = true;
+            _this.visible = false;
             x = x * Laya.Browser.clientWidth / 1920;
             y = y * Laya.Browser.clientHeight / 1080;
             _this.autoSize = true;
@@ -272,6 +335,12 @@ var entities;
             _this.dx = _this.dy = 0;
             _this.x = 750 * Laya.Browser.clientWidth / 1920;
             _this.y = 520 * Laya.Browser.clientHeight / 1080;
+            /*
+            console.log('clientWidth=' + Laya.Browser.clientWidth);
+            console.log('clientHeight=' + Laya.Browser.clientHeight);
+            this.x = 1100;
+            this.y = 100;
+            */
             _this.roleAni = new Animation(); //创建一个 Animation 类的实例对象 animation 。
             _this.roleAni.loadAtlas("res/img/player/后面序列.atlas", Handler.create(_this, _this.onLoaded)); //加载图集并播放
             _this.roleAni.scaleX = 0.25;
@@ -465,18 +534,114 @@ var entities;
 var Player = entities.Player;
 var Map = entities.Map;
 var Creature = entities.Creature;
+var Barrier = entities.Barrier;
 var Areas = utils.Areas;
 var Area = utils.Area;
 var MediaUtil = utils.MediaUtil;
-var Dog = entities.animals.Dog;
-var Fog = entities.animals.Fog;
-var Cat = entities.animals.Cat;
-var Pumpkin = entities.plants.Pumpkin;
-var Tomato = entities.plants.Tomato;
+/*
+import Dog = entities.animals.Dog;
+import Fog = entities.animals.Fog;
+import Cat = entities.animals.Cat;
+import Pumpkin = entities.plants.Pumpkin;
+import Tomato = entities.plants.Tomato;
+*/
 var Tween = laya.utils.Tween;
 var Ease = laya.utils.Ease;
 var Rectangle = laya.maths.Rectangle;
 var PointUtil = utils.PointUtil;
+var BarriersData = [
+    {
+        type: "House",
+        x: 0,
+        y: 0,
+        width: 749,
+        height: 452
+    },
+    {
+        type: "LeftBottom",
+        x: 0,
+        y: 222,
+        width: 626,
+        height: 629
+    },
+    {
+        type: "Barrier3",
+        x: 330,
+        y: 392,
+        width: 157,
+        height: 299
+    },
+    {
+        type: "Barrier4",
+        x: 395,
+        y: 472,
+        width: 395,
+        height: 129
+    },
+    {
+        type: "Barrier5",
+        x: 595,
+        y: 502,
+        width: 251,
+        height: 75
+    },
+    {
+        type: "Barrier6",
+        x: 655,
+        y: 302,
+        width: 604,
+        height: 480
+    },
+    {
+        type: "Barrier7",
+        x: 865,
+        y: 0,
+        width: 180,
+        height: 599
+    },
+    {
+        type: "Barrier8",
+        x: 575,
+        y: 0,
+        width: 772,
+        height: 249
+    },
+    {
+        type: "Barrier9",
+        x: 0,
+        y: 0,
+        width: 954,
+        height: 169
+    },
+    {
+        type: "Barrier10",
+        x: 357,
+        y: 188,
+        width: 199,
+        height: 52
+    },
+    {
+        type: "Barrier11",
+        x: 601,
+        y: 278,
+        width: 255,
+        height: 212
+    },
+    {
+        type: "Barrier12",
+        x: 726,
+        y: 293,
+        width: 412,
+        height: 78
+    },
+    {
+        type: "Barrier13",
+        x: 835,
+        y: 238,
+        width: 250,
+        height: 252
+    },
+];
 var SpritesData = [
     {
         type: "Dog",
@@ -564,10 +729,10 @@ var SpritesData = [
     },
     {
         type: "Fog",
-        x: 636,
-        y: 479,
-        width: 41,
-        height: 27
+        x: 619,
+        y: 451,
+        width: 105,
+        height: 115
     },
 ];
 var GameMain = /** @class */ (function () {
@@ -589,13 +754,38 @@ var GameMain = /** @class */ (function () {
         }
         ;
     };
+    GameMain.prototype.initBarriers = function () {
+        this.barriers = new Array(BarriersData.length);
+        for (var i = 0; i < BarriersData.length; i++) {
+            var spriteData = BarriersData[i];
+            var sprite = new Barrier(spriteData.type, spriteData.x, spriteData.y, spriteData.width, spriteData.height);
+            this.barriers[i] = sprite;
+            Laya.stage.addChild(sprite);
+        }
+        ;
+        //this.barriers[i] = this.creatures[12];
+    };
     GameMain.prototype.init = function () {
         var map = new Map();
         Laya.stage.addChild(map);
         this.initSprites();
+        this.initBarriers();
         this.player = new Player();
         Laya.stage.addChild(this.player);
         Laya.stage.on(Laya.Event.CLICK, this, this.onMouseDown);
+    };
+    GameMain.prototype.stopIfBarriers = function () {
+        var rect = this.player.getBounds();
+        if (this.barriers != undefined) {
+            for (var i = 0; i < this.barriers.length; i++) {
+                var barrier = this.barriers[i];
+                var rectBarrier = barrier.getBounds();
+                if (rectBarrier.intersects(rect)) {
+                    this.tweenObj.pause();
+                    return;
+                }
+            }
+        }
     };
     GameMain.prototype.playMediaIfIntersets = function () {
         var rect = this.player.getBounds();
@@ -630,14 +820,29 @@ var GameMain = /** @class */ (function () {
         }
     };
     GameMain.prototype.onMouseDown = function (parm) {
-        Laya.timer.loop(1000, this, this.animateTimeBased);
-        this.tweenObj = this.player.tweenTo(Laya.stage.mouseX, Laya.stage.mouseY);
+        var dx = Laya.stage.mouseX;
+        var dy = Laya.stage.mouseY;
+        if (this.barriers != undefined) {
+            for (var i = 0; i < this.barriers.length; i++) {
+                var barrier = this.barriers[i];
+                var rectBarrier = barrier.getBounds();
+                //console.log('dx='+dx+',dy='+dy+'rectBarrier=');
+                //console.log(rectBarrier);
+                if (rectBarrier.contains(dx, dy)) {
+                    console.log('contains and return');
+                    return;
+                }
+            }
+        }
+        Laya.timer.loop(100, this, this.animateTimeBased);
+        this.tweenObj = this.player.tweenTo(dx, dy);
         MediaUtil.readyToPlayVideo = true;
         MediaUtil.readyToPlayAudio = true;
     };
     GameMain.prototype.moveCompleted = function (sprite) {
     };
     GameMain.prototype.animateTimeBased = function () {
+        this.stopIfBarriers();
         this.playMediaIfIntersets();
     };
     return GameMain;
