@@ -53,25 +53,25 @@ var utils;
         }
         MediaUtil.playVideo = function (type) {
             if ((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
-                $('#videoId').attr('src', 'res/mp4/狗.mp4');
+                $('#videoId').attr('src', 'res/mp4/dog.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if ((type == 'Tomato') && (MediaUtil.readyToPlayVideo)) {
-                $('#videoId').attr('src', 'res/mp4/西红柿.mp4');
+                $('#videoId').attr('src', 'res/mp4/tomato.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if ((type == 'Fog') && (MediaUtil.readyToPlayVideo)) {
-                $('#videoId').attr('src', 'res/mp4/青蛙.mp4');
+                $('#videoId').attr('src', 'res/mp4/fog.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
             }
             else if ((type == 'Pumpkin') && (MediaUtil.readyToPlayVideo)) {
-                $('#videoId').attr('src', 'res/mp4/南瓜.mp4');
+                $('#videoId').attr('src', 'res/mp4/pumpkin.mp4');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
