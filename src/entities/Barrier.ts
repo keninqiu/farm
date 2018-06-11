@@ -55,7 +55,13 @@ module entities{
 			}	
 			else if(type == 'Barrier13') {
 				this.loadImage("res/img/barriers/barrier13.png",x,y,width,height);
-			}																												
+			}	
+			else if(type == 'Barrier14') {
+				this.loadImage("res/img/barriers/barrier14.png",x,y,width,height);
+			}				
+			else if(type == 'Pumpkin')	{
+				this.loadImage("res/img/plants/pumpkin/pumpkin1.png",x,y,width,height);
+			}																										
 		}
 	}
 }

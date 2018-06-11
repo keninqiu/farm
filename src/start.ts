@@ -37,17 +37,17 @@ var BarriersData = [
     },    
     {
         type:"Barrier3",
-        x:330,
-        y:392,
-        width:157,
-        height:299
+        x:300,
+        y:382,
+        width:192,
+        height:321
     },   
     {
         type:"Barrier4",
         x:395,
-        y:472,
-        width:395,
-        height:129
+        y:452,
+        width:712,
+        height:177
     },   
     {
         type:"Barrier5",
@@ -86,17 +86,17 @@ var BarriersData = [
     },  
     {
         type:"Barrier10",
-        x:357,
-        y:188,
-        width:199,
-        height:52
+        x:341,
+        y:139,
+        width:271,
+        height:203
     },   
     {
         type:"Barrier11",
-        x:601,
-        y:278,
-        width:255,
-        height:212
+        x:615,
+        y:290,
+        width:320,
+        height:444
     },   
     {
         type:"Barrier12",
@@ -111,7 +111,77 @@ var BarriersData = [
         y:238,
         width:250,
         height:252
-    },                                    
+    }, 
+    {
+        type:"Pumpkin",
+        x:443,
+        y:425,
+        width:86,
+        height:81
+    },  
+    {
+        type:"Pumpkin",
+        x:423,
+        y:410,
+        width:86,
+        height:81
+    },   
+    {
+        type:"Pumpkin",
+        x:403,
+        y:395,
+        width:86,
+        height:81
+    },   
+    {
+        type:"Pumpkin",
+        x:383,
+        y:380,
+        width:86,
+        height:81
+    },   
+    {
+        type:"Pumpkin",
+        x:383,
+        y:400,
+        width:86,
+        height:81
+    },   
+    {
+        type:"Pumpkin",
+        x:583,
+        y:345,
+        width:86,
+        height:81
+    },  
+    {
+        type:"Pumpkin",
+        x:563,
+        y:330,
+        width:86,
+        height:81
+    },
+    {
+        type:"Pumpkin",
+        x:543,
+        y:315,
+        width:86,
+        height:81
+    },   
+    {
+        type:"Pumpkin",
+        x:523,
+        y:300,
+        width:86,
+        height:81
+    },     
+    {
+        type:"Barrier14",
+        x:533,
+        y:240,
+        width:407,
+        height:229
+    },                                                                     
 ];
 
 var SpritesData = [
@@ -341,7 +411,7 @@ class GameMain{
     onMouseDown(parm) {
         
         var dx:number = Laya.stage.mouseX;
-        var dy:number = Laya.stage.mouseY;
+        var dy:number = Laya.stage.mouseY - this.player.height;
         if(this.barriers != undefined) {
             for(var i=0;i<this.barriers.length;i++) {
                 var barrier = this.barriers[i];
