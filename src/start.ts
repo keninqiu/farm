@@ -281,6 +281,7 @@ class GameMain{
 
     private stopIfBarriers(): void {
         var rect = this.player.getBounds();
+        rect = new Laya.Rectangle(rect.x,rect.y,rect.width*0.25,rect.height*0.25);
         if(this.barriers != undefined) {
             for(var i=0;i<this.barriers.length;i++) {
                 var barrier = this.barriers[i];
