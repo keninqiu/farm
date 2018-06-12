@@ -200,52 +200,55 @@ var entities;
             _this.y = y;
             _this.width = width;
             _this.height = height;
-            if (type == 'House') {
-                _this.loadImage("res/img/barriers/house.png", x, y, width, height);
-            }
-            else if (type == 'LeftBottom') {
-                _this.loadImage("res/img/barriers/left-bottom.png", x, y, width, height);
-            }
-            else if (type == 'Barrier3') {
-                _this.loadImage("res/img/barriers/barrier3.png", x, y, width, height);
-            }
-            else if (type == 'Barrier4') {
-                _this.loadImage("res/img/barriers/barrier4.png", x, y, width, height);
-            }
-            else if (type == 'Barrier5') {
-                _this.loadImage("res/img/barriers/barrier5.png", x, y, width, height);
-            }
-            else if (type == 'Barrier6') {
-                _this.loadImage("res/img/barriers/barrier6.png", x, y, width, height);
-            }
-            else if (type == 'Barrier7') {
-                _this.loadImage("res/img/barriers/barrier7.png", x, y, width, height);
-            }
-            else if (type == 'Barrier8') {
-                _this.loadImage("res/img/barriers/barrier8.png", x, y, width, height);
-            }
-            else if (type == 'Barrier9') {
-                _this.loadImage("res/img/barriers/barrier9.png", x, y, width, height);
-            }
-            else if (type == 'Barrier10') {
-                _this.loadImage("res/img/barriers/barrier10.png", x, y, width, height);
-            }
-            else if (type == 'Barrier11') {
-                _this.loadImage("res/img/barriers/barrier11.png", x, y, width, height);
-            }
-            else if (type == 'Barrier12') {
-                _this.loadImage("res/img/barriers/barrier12.png", x, y, width, height);
-            }
-            else if (type == 'Barrier13') {
-                _this.loadImage("res/img/barriers/barrier13.png", x, y, width, height);
-            }
-            else if (type == 'Barrier14') {
-                _this.loadImage("res/img/barriers/barrier14.png", x, y, width, height);
-            }
-            else if (type == 'Pumpkin') {
-                _this.loadImage("res/img/plants/pumpkin/pumpkin1.png", x, y, width, height);
-            }
+            _this.loadImage("res/img/bg.png", x, y, width, height);
             return _this;
+            /*
+            if(type == 'House') {
+                this.loadImage("res/img/barriers/house.png",x,y,width,height);
+            }
+            else if(type == 'LeftBottom') {
+                this.loadImage("res/img/barriers/left-bottom.png",x,y,width,height);
+            }
+            else if(type == 'Barrier3') {
+                this.loadImage("res/img/barriers/barrier3.png",x,y,width,height);
+            }
+            else if(type == 'Barrier4') {
+                this.loadImage("res/img/barriers/barrier4.png",x,y,width,height);
+            }
+            else if(type == 'Barrier5') {
+                this.loadImage("res/img/barriers/barrier5.png",x,y,width,height);
+            }
+            else if(type == 'Barrier6') {
+                this.loadImage("res/img/barriers/barrier6.png",x,y,width,height);
+            }
+            else if(type == 'Barrier7') {
+                this.loadImage("res/img/barriers/barrier7.png",x,y,width,height);
+            }
+            else if(type == 'Barrier8') {
+                this.loadImage("res/img/barriers/barrier8.png",x,y,width,height);
+            }
+            else if(type == 'Barrier9') {
+                this.loadImage("res/img/barriers/barrier9.png",x,y,width,height);
+            }
+            else if(type == 'Barrier10') {
+                this.loadImage("res/img/barriers/barrier10.png",x,y,width,height);
+            }
+            else if(type == 'Barrier11') {
+                this.loadImage("res/img/barriers/barrier11.png",x,y,width,height);
+            }
+            else if(type == 'Barrier12') {
+                this.loadImage("res/img/barriers/barrier12.png",x,y,width,height);
+            }
+            else if(type == 'Barrier13') {
+                this.loadImage("res/img/barriers/barrier13.png",x,y,width,height);
+            }
+            else if(type == 'Barrier14') {
+                this.loadImage("res/img/barriers/barrier14.png",x,y,width,height);
+            }
+            else if(type == 'Pumpkin')	{
+                this.loadImage("res/img/plants/pumpkin/pumpkin1.png",x,y,width,height);
+            }
+            */
         }
         Barrier.COUNT = 20;
         return Barrier;
@@ -269,19 +272,22 @@ var entities;
             _this.y = y;
             _this.width = width;
             _this.height = height;
-            if (type == 'Dog') {
-                _this.loadImage("res/img/animals/dog/dog1.png", x, y, width, height);
-            }
-            else if (type == 'Pumpkin') {
-                _this.loadImage("res/img/plants/pumpkin/pumpkin1.png", x, y, width, height);
-            }
-            else if (type == 'Tomato') {
-                _this.loadImage("res/img/plants/tomato/tomato1.png", x, y, width, height);
-            }
-            else if (type == 'Fog') {
-                _this.loadImage("res/img/animals/fog/fog1.png", x, y, width, height);
-            }
+            _this.loadImage("res/img/bg.png", x, y, width, height);
             return _this;
+            /*
+            if(type == 'Dog') {
+                this.loadImage("res/img/animals/dog/dog1.png",x,y,width,height);
+            }
+            else if(type == 'Pumpkin') {
+                this.loadImage("res/img/plants/pumpkin/pumpkin1.png",x,y,width,height);
+            }
+            else if(type == 'Tomato') {
+                this.loadImage("res/img/plants/tomato/tomato1.png",x,y,width,height);
+            }
+            else if(type == 'Fog') {
+                this.loadImage("res/img/animals/fog/fog1.png",x,y,width,height);
+            }
+            */
         }
         Creature.COUNT = 20;
         return Creature;

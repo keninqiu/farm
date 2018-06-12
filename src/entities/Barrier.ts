@@ -17,6 +17,8 @@ module entities{
 			this.width = width;
 			this.height = height;
 			
+			this.loadImage("res/img/bg.png",x,y,width,height);
+			/*
 			if(type == 'House') {
 				this.loadImage("res/img/barriers/house.png",x,y,width,height);
 			}
@@ -61,7 +63,8 @@ module entities{
 			}				
 			else if(type == 'Pumpkin')	{
 				this.loadImage("res/img/plants/pumpkin/pumpkin1.png",x,y,width,height);
-			}																										
+			}
+			*/																										
 		}
 	}
 }

@@ -17,6 +17,8 @@ module entities{
 			this.width = width;
 			this.height = height;
 			
+			this.loadImage("res/img/bg.png",x,y,width,height);
+			/*
 			if(type == 'Dog') {
 				this.loadImage("res/img/animals/dog/dog1.png",x,y,width,height);
 			}
@@ -28,7 +30,8 @@ module entities{
 			}
 			else if(type == 'Fog') {
 				this.loadImage("res/img/animals/fog/fog1.png",x,y,width,height);
-			}			
+			}	
+			*/		
 		}
 	}
 }
