@@ -2,24 +2,11 @@
 import Player = entities.Player;
 import Map = entities.Map;
 
-import Creature = entities.Creature;
-import Barrier = entities.Barrier;
-
-import Areas = utils.Areas;
-import Area = utils.Area;
 import MediaUtil = utils.MediaUtil;
-/*
-import Dog = entities.animals.Dog;
-import Fog = entities.animals.Fog;
-import Cat = entities.animals.Cat;
-import Pumpkin = entities.plants.Pumpkin;
-import Tomato = entities.plants.Tomato;
-*/
+
 import Tween = laya.utils.Tween;
 import Ease = laya.utils.Ease;
 import Rectangle =  laya.maths.Rectangle;
-
-import PointUtil = utils.PointUtil;
 
 
 var Barriers = [
@@ -75,14 +62,7 @@ var SpritesData = [
 ];
 
 class GameMain{
-/*
-    public dogs:Array<Dog>;
-    public fogs:Array<Fog>;
-    public pumpkins:Array<Pumpkin>;
-    public tomatos:Array<Tomato>;
-*/
-    public creatures:Creature[];
-    public barriers:Barrier[];
+
     public player:Player;
     public tweenObj:Tween;
     constructor()
@@ -96,23 +76,7 @@ class GameMain{
         Laya.stage.fullScreenEnabled = true;
 
     }
-    initSprites() {
-        this.creatures = new Array(SpritesData.length);
-        for(var i=0;i<SpritesData.length;i++)  {
-            var spriteData = SpritesData[i];
-            
-            var sprite:Creature = new Creature(
-                spriteData.type,
-                spriteData.x,
-                spriteData.y,
-                spriteData.width,
-                spriteData.height
-            );
-            this.creatures[i] = sprite;
-            Laya.stage.addChild(sprite);
-            
-        };
-    }
+
 
     segmentsIntr(a, b, c, d){  
       
@@ -178,8 +142,7 @@ class GameMain{
 
     init() {
         var map:Map = new Map();
-        Laya.stage.addChild(map);    
-        this.initSprites();
+        Laya.stage.addChild(map);
         this.player = new Player();
         Laya.stage.addChild(this.player);
                 

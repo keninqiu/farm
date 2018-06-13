@@ -5,10 +5,12 @@ import Animation = Laya.Animation;
 import Handler = Laya.Handler;
 
 module entities{
-	export class Player extends Animal{
+	export class Player extends Laya.Sprite{
 		roleAni:Animation;
+		dx:number;
+		dy:number;
 		constructor(){
-			super(0,0);
+			super();
 			this.dx = this.dy = 0;
 
 			this.x = 750 * Laya.stage.width/1920;
