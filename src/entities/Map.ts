@@ -6,7 +6,7 @@ module entities {
 		constructor(){
 			super();
 			this.visible = true;
-			this.loadImage("res/img/bg.png",0,0,Laya.Browser.clientWidth,Laya.Browser.clientHeight);
+			this.loadImage("res/img/bg.jpg",0,0,Laya.Browser.clientWidth,Laya.Browser.clientHeight);
 			/*
 			if(Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
 				this.loadImage("res/img/bg.png",0,0,Laya.Browser.clientHeight,Laya.Browser.clientWidth);

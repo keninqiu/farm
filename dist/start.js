@@ -70,7 +70,7 @@ var entities;
         function Map() {
             var _this = _super.call(this) || this;
             _this.visible = true;
-            _this.loadImage("res/img/bg.png", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
+            _this.loadImage("res/img/bg.jpg", 0, 0, Laya.Browser.clientWidth, Laya.Browser.clientHeight);
             return _this;
             /*
             if(Laya.Browser.clientWidth < Laya.Browser.clientHeight) {
