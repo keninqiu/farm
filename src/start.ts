@@ -39,262 +39,38 @@ var Barriers = [
     {x:1060,y:960},
     {x:570,y:630},
 ];
-var BarriersData = [
 
-    {
-        type:"House",
-        x:0,
-        y:0,
-        width:749,
-        height:452
-    },
-    {
-        type:"LeftBottom",
-        x:0,
-        y:222,
-        width:626,
-        height:629
-    },    
-    {
-        type:"Barrier3",
-        x:300,
-        y:382,
-        width:192,
-        height:321
-    },   
-    {
-        type:"Barrier4",
-        x:395,
-        y:452,
-        width:712,
-        height:177
-    },   
-    {
-        type:"Barrier5",
-        x:595,
-        y:502,
-        width:251,
-        height:75
-    },    
-    {
-        type:"Barrier6",
-        x:655,
-        y:302,
-        width:604,
-        height:480
-    }, 
-    {
-        type:"Barrier7",
-        x:865,
-        y:0,
-        width:180,
-        height:599
-    },   
-    {
-        type:"Barrier8",
-        x:575,
-        y:0,
-        width:772,
-        height:249
-    },   
-    {
-        type:"Barrier9",
-        x:0,
-        y:0,
-        width:954,
-        height:169
-    },  
-    {
-        type:"Barrier10",
-        x:341,
-        y:139,
-        width:271,
-        height:203
-    },   
-    {
-        type:"Barrier11",
-        x:615,
-        y:290,
-        width:320,
-        height:444
-    },   
-    {
-        type:"Barrier12",
-        x:726,
-        y:293,
-        width:412,
-        height:78
-    },  
-    {
-        type:"Barrier13",
-        x:835,
-        y:238,
-        width:250,
-        height:252
-    }, 
-    {
-        type:"Pumpkin",
-        x:443,
-        y:425,
-        width:86,
-        height:81
-    },  
-    {
-        type:"Pumpkin",
-        x:423,
-        y:410,
-        width:86,
-        height:81
-    },   
-    {
-        type:"Pumpkin",
-        x:403,
-        y:395,
-        width:86,
-        height:81
-    },   
-    {
-        type:"Pumpkin",
-        x:383,
-        y:380,
-        width:86,
-        height:81
-    },   
-    {
-        type:"Pumpkin",
-        x:383,
-        y:400,
-        width:86,
-        height:81
-    },   
-    {
-        type:"Pumpkin",
-        x:583,
-        y:345,
-        width:86,
-        height:81
-    },  
-    {
-        type:"Pumpkin",
-        x:563,
-        y:330,
-        width:86,
-        height:81
-    },
-    {
-        type:"Pumpkin",
-        x:543,
-        y:315,
-        width:86,
-        height:81
-    },   
-    {
-        type:"Pumpkin",
-        x:523,
-        y:300,
-        width:86,
-        height:81
-    },     
-    {
-        type:"Barrier14",
-        x:533,
-        y:240,
-        width:407,
-        height:229
-    },                                                                     
-];
 
 var SpritesData = [
     {
         type:"Dog",
-        x:646,
-        y:182,
-        width:76,
-        height:100
+        x:1296,
+        y:350,
+        width:110,
+        height:130
     },
     {
         type:"Pumpkin",
-        x:513,
-        y:309,
-        width:86,
-        height:81
+        x:1008,
+        y:619,
+        width:296,
+        height:180
     },
+
     {
-        type:"Pumpkin",
-        x:543,
-        y:325,
-        width:86,
-        height:81
+        type:"Tomato",
+        x:733,
+        y:293,
+        width:252,
+        height:215
     }, 
-    {
-        type:"Pumpkin",
-        x:573,
-        y:341,
-        width:86,
-        height:81
-    }, 
-    {
-        type:"Pumpkin",
-        x:603,
-        y:357,
-        width:86,
-        height:81
-    }, 
-    {
-        type:"Tomato",
-        x:443,
-        y:173,
-        width:82,
-        height:85
-    }, 
-    {
-        type:"Tomato",
-        x:421,
-        y:192,
-        width:82,
-        height:85
-    }, 
-    {
-        type:"Tomato",
-        x:396,
-        y:177,
-        width:82,
-        height:85
-    }, 
-    {
-        type:"Tomato",
-        x:370,
-        y:167,
-        width:82,
-        height:85
-    },   
-    {
-        type:"Tomato",
-        x:344,
-        y:154,
-        width:82,
-        height:85
-    },    
-    {
-        type:"Tomato",
-        x:354,
-        y:144,
-        width:82,
-        height:85
-    },  
-    {
-        type:"Tomato",
-        x:417,
-        y:162,
-        width:82,
-        height:85
-    },    
+
     {
         type:"Fog",
-        x:619,
-        y:451,
-        width:105,
-        height:115
+        x:1169,
+        y:891,
+        width:95,
+        height:65
     },                 
 ];
 
@@ -384,31 +160,26 @@ class GameMain{
             Laya.stage.addChild(sp);
             sp.graphics.drawLine(fromX, fromY, toX, toY, "#ff0000", 3);
         }
-        /*
-        this.barriers = new Array(BarriersData.length);
-        for(var i=0;i<BarriersData.length;i++)  {
-            var spriteData = BarriersData[i];
-            
-            var sprite:Barrier = new Barrier(
-                spriteData.type,
-                spriteData.x,
-                spriteData.y,
-                spriteData.width,
-                spriteData.height
-            );
-            this.barriers[i] = sprite;
-            Laya.stage.addChild(sprite);
-            
-        };
-        //this.barriers[i] = this.creatures[12];
-        */
+
+    }
+
+    initSpriteArea() {
+        for(var i=0;i<SpritesData.length;i++) {
+                var x:number = SpritesData[i].x * Laya.stage.width/1920;
+                var y:number = SpritesData[i].y * Laya.stage.height/1080;
+                var width:number = SpritesData[i].width * Laya.stage.width/1920;
+                var height:number = SpritesData[i].height * Laya.stage.height/1080;
+                var sp = new Laya.Sprite();
+                Laya.stage.addChild(sp);
+               //画矩形
+                sp.graphics.drawRect(x, y, width, height, "#ffff00");                
+        }
     }
 
     init() {
         var map:Map = new Map();
         Laya.stage.addChild(map);    
         this.initSprites();
-        //this.initBarriers();
         this.player = new Player();
         Laya.stage.addChild(this.player);
                 
@@ -416,44 +187,17 @@ class GameMain{
   
     }
 
-    private stopIfBarriers(): void {
-        /*
-        var rect = this.player.getBounds();
-        rect = new Laya.Rectangle(rect.x,rect.y,rect.width*0.25,rect.height*0.25);
-        if(this.barriers != undefined) {
-            for(var i=0;i<this.barriers.length;i++) {
-                var barrier = this.barriers[i];
-                var rectBarrier = barrier.getBounds();
-                if(rectBarrier.intersects(rect)) {
-                    this.tweenObj.pause();
-                    return;
-                }
-            }
-        }
-        if(this.creatures != undefined) {
-            var rectBarrier2 = this.creatures[12].getBounds();
-            if(rectBarrier2.intersects(rect)) {
-                this.tweenObj.pause();
-                return;
-            }            
-        }
-        */
-    }
-    private playMediaIfIntersets(): void {
-        var rect = this.player.getBounds();
-        //var rect = new Rectangle(this.player.x,this.player.y,this.player.width,this.player.height);
-        var rectNearBy = new Rectangle(rect.x,rect.y,rect.width*1.4,rect.height*1.4);
-        if(this.creatures != undefined) {
-            for(var i=0;i<this.creatures.length;i++) {
-                var creature = this.creatures[i];
-                var type = creature.type;
-                var rectCreture = creature.getBounds();
-                //var rectCreture:Rectangle = new Rectangle(creature.x,creature.y,creature.width,creature.height);
-                if(rectCreture.intersects(rect)) {
-                    console.log('rect=');
-                    console.log(rect);
-                    console.log('rectCreture=');
-                    console.log(rectCreture);                    
+    playMediaIfIntersets(): void {
+        var playerX:number = this.player.x;
+        var plaerY:number = this.player.y;
+        for(var i=0;i<SpritesData.length;i++) {
+            var type = SpritesData[i].type;
+            var x:number = SpritesData[i].x * Laya.stage.width/1920;
+            var y:number = SpritesData[i].y * Laya.stage.height/1080;
+            var width:number = SpritesData[i].width * Laya.stage.width/1920;
+            var height:number = SpritesData[i].height * Laya.stage.height/1080;        
+            var rectSprite:Rectangle = new Rectangle(x,y,width,height);
+            if(rectSprite.contains(playerX,plaerY)) {
                   if(type == MediaUtil.type) {
                     return;
                   }                        
@@ -463,13 +207,18 @@ class GameMain{
                       Laya.timer.clear(this,this.animateTimeBased);
                       this.tweenObj.pause();
                     }
-                    
-                    
-                  }
-                        
                 }
-                else if(creature.getBounds().intersects(rectNearBy)) {
-                  MediaUtil.playAudio(type);        
+            }
+            else {
+                x = x - width/2;
+                y = y - height/2;
+                width = width * 2;
+                height = height * 2;
+                rectSprite = new Rectangle(x,y,width,height);
+                if(rectSprite.contains(playerX,plaerY)) {
+                    if((type == 'Dog') || (type == 'Fog')&&MediaUtil.readyToPlayVideo) {
+                        MediaUtil.playAudio(type); 
+                    }
                 }
             }
         }
@@ -477,15 +226,15 @@ class GameMain{
 
     }
 
-    onMouseDown(parm) {
+    onMouseDown() {
         
         var dx:number = Laya.stage.mouseX;
         var dy:number = Laya.stage.mouseY;
         if(dx == 0 && dy == 0) {
             return;
         }
-        this.initBarriers();
-
+        //this.initBarriers();
+        //this.initSpriteArea();
         var a = {x:this.player.x,y:this.player.y};
         var b = {x:dx,y:dy};
 
@@ -503,21 +252,8 @@ class GameMain{
                 return;
             }
         }        
-        /*
-        if(this.barriers != undefined) {
-            for(var i=0;i<this.barriers.length;i++) {
-                var barrier = this.barriers[i];
-                var rectBarrier = barrier.getBounds();
-                //console.log('dx='+dx+',dy='+dy+'rectBarrier=');
-                //console.log(rectBarrier);
-                if(rectBarrier.contains(dx,dy)) {
-                    console.log('contains and return');
-                    return;
-                }
-            }
-        }
-        */
-        //Laya.timer.loop(100, this, this.animateTimeBased);
+
+        Laya.timer.loop(100, this, this.animateTimeBased);
         this.tweenObj = this.player.tweenTo(dx,dy);
         MediaUtil.readyToPlayVideo = true;
         MediaUtil.readyToPlayAudio = true;
@@ -527,7 +263,6 @@ class GameMain{
     moveCompleted(sprite:Player) {
     }
     animateTimeBased() {
-        this.stopIfBarriers();
         this.playMediaIfIntersets();
 
     }
