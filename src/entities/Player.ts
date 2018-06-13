@@ -11,18 +11,13 @@ module entities{
 			super(0,0);
 			this.dx = this.dy = 0;
 
-			this.x = 750 * Laya.Browser.clientWidth/1920;
-			this.y = 520 * Laya.Browser.clientHeight/1080;
-			/*
-			console.log('clientWidth=' + Laya.Browser.clientWidth);
-			console.log('clientHeight=' + Laya.Browser.clientHeight);
-			this.x = 1100;
-			this.y = 100;
-			*/
+			this.x = 750 * Laya.stage.width/1920;
+			this.y = 640 * Laya.stage.height/1080;
+
 	 		this.roleAni = new Animation();//创建一个 Animation 类的实例对象 animation 。
-	 		this.roleAni.loadAtlas("res/img/player/后面序列.atlas",Handler.create(this,this.onLoaded));//加载图集并播放
-	 		this.roleAni.scaleX = 0.25;
-	 		this.roleAni.scaleY = 0.25;
+	 		this.roleAni.loadAtlas("res/img/player/后面序列.atlas",Handler.create(this,this.onLoadedBackSeq));//加载图集并播放
+	 		this.roleAni.scaleX = 0.4 * Laya.stage.width/1920;
+	 		this.roleAni.scaleY = 0.4 * Laya.stage.height/1080;
 	 		this.roleAni.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
 	 		this.roleAni.play();//播放动画。
 	 		this.addChild(this.roleAni);//将 animation 对象添加到显示列表。
@@ -30,14 +25,42 @@ module entities{
 
 		}
 
-		onLoaded():void {
+		onLoadedBackSeq():void {
 				//获得动画矩形边界
 			var bounds:Rectangle=this.getBounds();
-			this.size(bounds.width * Laya.Browser.clientWidth/1920,bounds.height * Laya.Browser.clientHeight/1080);
-			console.log('this.width=' + this.width);
+			var width = 218;
+			var height = 306;
+			this.size(width * this.roleAni.scaleX ,height * this.roleAni.scaleY);
+			this.pivotX = this.width/2;
+			this.pivotY = this.height;
 		}
-
-
+		onLoadedFrontSeq():void {
+				//获得动画矩形边界
+			var bounds:Rectangle=this.getBounds();
+			var width = 178;
+			var height = 258;
+			this.size(width * this.roleAni.scaleX ,height * this.roleAni.scaleY);
+			this.pivotX = this.width/2;
+			this.pivotY = this.height;
+		}
+		onLoadedLeftSeq():void {
+				//获得动画矩形边界
+			var bounds:Rectangle=this.getBounds();
+			var width = 183;
+			var height = 360;
+			this.size(width * this.roleAni.scaleX ,height * this.roleAni.scaleY);
+			this.pivotX = this.width/2;
+			this.pivotY = this.height;
+		}
+		onLoadedRightSeq():void {
+				//获得动画矩形边界
+			var bounds:Rectangle=this.getBounds();
+			var width = 183;
+			var height = 360;
+			this.size(width * this.roleAni.scaleX ,height * this.roleAni.scaleY);
+			this.pivotX = this.width/2;
+			this.pivotY = this.height;
+		}		
 		tweenTo(dx:number,dy:number):Tween {
 			if(dx == 0 && dy == 0) {
 				return;
@@ -49,18 +72,18 @@ module entities{
 	        var deltaY:number = Math.abs(dy-y);
 	        if(deltaX < deltaY) {
 	        	if(dy < y) {
-	        		this.roleAni.loadAtlas("res/img/player/后面序列.atlas");
+	        		this.roleAni.loadAtlas("res/img/player/后面序列.atlas",Handler.create(this,this.onLoadedBackSeq));//加载图集并播放
 	        	}
 	        	else {
-	        		this.roleAni.loadAtlas("res/img/player/正面序列.atlas");
+	        		this.roleAni.loadAtlas("res/img/player/正面序列.atlas",Handler.create(this,this.onLoadedFrontSeq));//加载图集并播放
 	        	}
 	        }
 	        else {
 	        	if(dx < x) {
-	        		this.roleAni.loadAtlas("res/img/player/侧左序列.atlas");
+	        		this.roleAni.loadAtlas("res/img/player/侧左序列.atlas",Handler.create(this,this.onLoadedLeftSeq));//加载图集并播放
 	        	}
 	        	else {
-	        		this.roleAni.loadAtlas("res/img/player/侧右序列.atlas");
+	        		this.roleAni.loadAtlas("res/img/player/侧右序列.atlas",Handler.create(this,this.onLoadedRightSeq));//加载图集并播放
 	        	}
 	        	
 	        }
@@ -70,47 +93,3 @@ module entities{
 	}
 }
 
-/*
-	 * 			var animation:Animation = new Animation();//创建一个 Animation 类的实例对象 animation 。
-	 * 			animation.loadAtlas("resource/ani/fighter.json");//加载图集并播放
-	 * 			animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-	 * 			animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-	 * 			animation.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
-	 * 			animation.play();//播放动画。
-	 * 			Laya.stage.addChild(animation);//将 animation 对象添加到显示列表。
-*/
-//https://github.com/layabox/layaair/tree/master/samples/res/fighter
-/*
-	export class Animation_Altas {
-		private AniConfPath: string = "../../res/fighter/fighter.json";
-
-		constructor() {
-			// 不支持eWebGL时自动切换至Canvas
-			Laya.init(Browser.clientWidth, Browser.clientHeight, WebGL);
-
-			Laya.stage.alignV = Stage.ALIGN_MIDDLE;
-			Laya.stage.alignH = Stage.ALIGN_CENTER;
-
-			Laya.stage.scaleMode = "showall";
-			Laya.stage.bgColor = "#232628";
-
-			ProtoBuf.load(this.AniConfPath, this.createAnimation);
-		}
-
-		private createAnimation(): void {
-			var ani: Animation = new Animation();
-			ani.loadAtlas(this.AniConfPath); // 加载图集动画
-			ani.interval = 30; // 设置播放间隔（单位：毫秒）
-			ani.index = 1; // 当前播放索引
-			ani.play(); // 播放图集动画
-
-			// 获取动画的边界信息
-			var bounds: Rectangle = ani.getGraphicBounds();
-			ani.pivot(bounds.width / 2, bounds.height / 2);
-
-			ani.pos(Laya.stage.width / 2, Laya.stage.height / 2);
-
-			Laya.stage.addChild(ani);
-		}
-	}
-*/

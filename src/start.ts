@@ -20,7 +20,27 @@ import Ease = laya.utils.Ease;
 import Rectangle =  laya.maths.Rectangle;
 
 import PointUtil = utils.PointUtil;
+
+
+var Barriers = [
+    {x:780,y:450},
+    {x:880,y:490},
+    {x:980,y:400},
+    {x:780,y:300},
+    {x:1030,y:100},
+    {x:1188,y:295},
+    {x:1774,y:540},
+    {x:1514,y:620},
+    {x:1244,y:490},
+    {x:1244,y:490},
+    {x:988,y:685},
+    {x:1294,y:830},
+    {x:1224,y:930},
+    {x:1060,y:960},
+    {x:570,y:630},
+];
 var BarriersData = [
+
     {
         type:"House",
         x:0,
@@ -318,7 +338,53 @@ class GameMain{
         };
     }
 
+    segmentsIntr(a, b, c, d){  
+      
+    /** 1 解线性方程组, 求线段交点. **/  
+    // 如果分母为0 则平行或共线, 不相交  
+        var denominator = (b.y - a.y)*(d.x - c.x) - (a.x - b.x)*(c.y - d.y);  
+        if (denominator==0) {  
+            return false;  
+        }  
+       
+    // 线段所在直线的交点坐标 (x , y)      
+        var x = ( (b.x - a.x) * (d.x - c.x) * (c.y - a.y)   
+                    + (b.y - a.y) * (d.x - c.x) * a.x   
+                    - (d.y - c.y) * (b.x - a.x) * c.x ) / denominator ;  
+        var y = -( (b.y - a.y) * (d.y - c.y) * (c.x - a.x)   
+                    + (b.x - a.x) * (d.y - c.y) * a.y   
+                    - (d.x - c.x) * (b.y - a.y) * c.y ) / denominator;  
+      
+    /** 2 判断交点是否在两条线段上 **/  
+        if (  
+            // 交点在线段1上  
+            (x - a.x) * (x - b.x) <= 0 && (y - a.y) * (y - b.y) <= 0  
+            // 且交点也在线段2上  
+             && (x - c.x) * (x - d.x) <= 0 && (y - c.y) * (y - d.y) <= 0  
+            ){  
+      
+            // 返回交点p  
+            return {  
+                    x :  x,  
+                    y :  y  
+                }  
+        }  
+        //否则不相交  
+        return false  
+      
+    }  
+
     initBarriers() {
+        for(var i=0;i<Barriers.length;i++)  {
+            var fromX:number = Barriers[i].x * Laya.stage.width/1920;
+            var fromY:number = Barriers[i].y * Laya.stage.height/1080;
+            var toX:number = Barriers[(i+1)%Barriers.length].x * Laya.stage.width/1920;
+            var toY:number = Barriers[(i+1)%Barriers.length].y * Laya.stage.height/1080;
+            var sp = new Laya.Sprite();
+            Laya.stage.addChild(sp);
+            sp.graphics.drawLine(fromX, fromY, toX, toY, "#ff0000", 3);
+        }
+        /*
         this.barriers = new Array(BarriersData.length);
         for(var i=0;i<BarriersData.length;i++)  {
             var spriteData = BarriersData[i];
@@ -335,13 +401,14 @@ class GameMain{
             
         };
         //this.barriers[i] = this.creatures[12];
+        */
     }
 
     init() {
         var map:Map = new Map();
         Laya.stage.addChild(map);    
         this.initSprites();
-        this.initBarriers();
+        //this.initBarriers();
         this.player = new Player();
         Laya.stage.addChild(this.player);
                 
@@ -350,6 +417,7 @@ class GameMain{
     }
 
     private stopIfBarriers(): void {
+        /*
         var rect = this.player.getBounds();
         rect = new Laya.Rectangle(rect.x,rect.y,rect.width*0.25,rect.height*0.25);
         if(this.barriers != undefined) {
@@ -369,6 +437,7 @@ class GameMain{
                 return;
             }            
         }
+        */
     }
     private playMediaIfIntersets(): void {
         var rect = this.player.getBounds();
@@ -411,7 +480,30 @@ class GameMain{
     onMouseDown(parm) {
         
         var dx:number = Laya.stage.mouseX;
-        var dy:number = Laya.stage.mouseY - this.player.height;
+        var dy:number = Laya.stage.mouseY;
+        if(dx == 0 && dy == 0) {
+            return;
+        }
+        this.initBarriers();
+
+        var a = {x:this.player.x,y:this.player.y};
+        var b = {x:dx,y:dy};
+
+        for(var i=0;i<Barriers.length;i++)  {
+            var fromX:number = Barriers[i].x * Laya.stage.width/1920;
+            var fromY:number = Barriers[i].y * Laya.stage.height/1080;
+            var toX:number = Barriers[(i+1)%Barriers.length].x * Laya.stage.width/1920;
+            var toY:number = Barriers[(i+1)%Barriers.length].y * Laya.stage.height/1080;
+            var c = {x:fromX,y:fromY};
+            var d = {x:toX,y:toY};
+            var hasBarrier = this.segmentsIntr(a,b,c,d);
+            console.log('hasBarrier=');
+            console.log(hasBarrier);
+            if(hasBarrier != false) {
+                return;
+            }
+        }        
+        /*
         if(this.barriers != undefined) {
             for(var i=0;i<this.barriers.length;i++) {
                 var barrier = this.barriers[i];
@@ -424,8 +516,8 @@ class GameMain{
                 }
             }
         }
-
-        Laya.timer.loop(100, this, this.animateTimeBased);
+        */
+        //Laya.timer.loop(100, this, this.animateTimeBased);
         this.tweenObj = this.player.tweenTo(dx,dy);
         MediaUtil.readyToPlayVideo = true;
         MediaUtil.readyToPlayAudio = true;

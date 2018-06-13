@@ -42,6 +42,72 @@ var utils;
     }());
     utils.Areas = Areas;
 })(utils || (utils = {}));
+var utils;
+(function (utils) {
+    var Sprite = Laya.Sprite;
+    var LineUtil = /** @class */ (function () {
+        function LineUtil() {
+        }
+        LineUtil.drawLine = function (fromX, fromY, toX, toY) {
+            var sp = new Sprite();
+            Laya.stage.addChild(sp);
+            sp.graphics.drawLine(fromX, fromY, toX, toY, "#ff0000", 3);
+        };
+        LineUtil.drawLines = function (BarriersLineSet) {
+            console.log('aaaaabbbbb=' + Laya.stage._canvasTransform.a);
+            var sp = new Sprite();
+            Laya.stage.addChild(sp);
+            var arr = [];
+            for (var i = 0; i < BarriersLineSet.length - 1; i++) {
+                var x1 = BarriersLineSet[i].x * Laya.stage.width / 1920;
+                console.log('x111=' + x1);
+                var y1 = BarriersLineSet[i].y * Laya.stage.height / 1080;
+                var x2 = BarriersLineSet[i + 1].x * Laya.stage.width / 1920;
+                var y2 = BarriersLineSet[i + 1].y * Laya.stage.height / 1080;
+                LineUtil.drawLine(x1, y1, x2, y2);
+            }
+        };
+        LineUtil.segmentsIntr = function (a, b, c, d) {
+            console.log('a=');
+            console.log(a);
+            console.log('b=');
+            console.log(b);
+            console.log('c=');
+            console.log(c);
+            console.log('d=');
+            console.log(d);
+            /** 1 解线性方程组, 求线段交点. **/
+            // 如果分母为0 则平行或共线, 不相交  
+            var denominator = (b.y - a.y) * (d.x - c.x) - (a.x - b.x) * (c.y - d.y);
+            if (denominator == 0) {
+                return { x: 0, y: 0 };
+            }
+            // 线段所在直线的交点坐标 (x , y)      
+            var x = ((b.x - a.x) * (d.x - c.x) * (c.y - a.y)
+                + (b.y - a.y) * (d.x - c.x) * a.x
+                - (d.y - c.y) * (b.x - a.x) * c.x) / denominator;
+            var y = -((b.y - a.y) * (d.y - c.y) * (c.x - a.x)
+                + (b.x - a.x) * (d.y - c.y) * a.y
+                - (d.x - c.x) * (b.y - a.y) * c.y) / denominator;
+            /** 2 判断交点是否在两条线段上 **/
+            if (
+            // 交点在线段1上  
+            (x - a.x) * (x - b.x) <= 0 && (y - a.y) * (y - b.y) <= 0
+                // 且交点也在线段2上  
+                && (x - c.x) * (x - d.x) <= 0 && (y - c.y) * (y - d.y) <= 0) {
+                // 返回交点p  
+                return {
+                    x: x,
+                    y: y
+                };
+            }
+            //否则不相交  
+            return { x: 0, y: 0 };
+        };
+        return LineUtil;
+    }());
+    utils.LineUtil = LineUtil;
+})(utils || (utils = {}));
 /**
 * name
 */
@@ -133,6 +199,31 @@ var utils;
         return PointUtil;
     }());
     utils.PointUtil = PointUtil;
+})(utils || (utils = {}));
+var utils;
+(function (utils) {
+    var Settings = /** @class */ (function () {
+        function Settings() {
+        }
+        Settings.getWidth = function () {
+            /*
+            if(Laya.stage != null && Laya.stage != undefined) {
+                return  Laya.Browser.clientWidth / Laya.stage.clientScaleX ;
+            }
+            */
+            return Laya.stage.width;
+        };
+        Settings.getHeight = function () {
+            /*
+            if(Laya.stage != null && Laya.stage != undefined) {
+                return  Laya.Browser.clientHeight / Laya.stage.clientScaleY;
+            }
+            */
+            return Laya.stage.height;
+        };
+        return Settings;
+    }());
+    utils.Settings = Settings;
 })(utils || (utils = {}));
 /**
 * name
@@ -346,28 +437,52 @@ var entities;
         function Player() {
             var _this = _super.call(this, 0, 0) || this;
             _this.dx = _this.dy = 0;
-            _this.x = 750 * Laya.Browser.clientWidth / 1920;
-            _this.y = 520 * Laya.Browser.clientHeight / 1080;
-            /*
-            console.log('clientWidth=' + Laya.Browser.clientWidth);
-            console.log('clientHeight=' + Laya.Browser.clientHeight);
-            this.x = 1100;
-            this.y = 100;
-            */
+            _this.x = 750 * Laya.stage.width / 1920;
+            _this.y = 640 * Laya.stage.height / 1080;
             _this.roleAni = new Animation(); //创建一个 Animation 类的实例对象 animation 。
-            _this.roleAni.loadAtlas("res/img/player/后面序列.atlas", Handler.create(_this, _this.onLoaded)); //加载图集并播放
-            _this.roleAni.scaleX = 0.25;
-            _this.roleAni.scaleY = 0.25;
+            _this.roleAni.loadAtlas("res/img/player/后面序列.atlas", Handler.create(_this, _this.onLoadedBackSeq)); //加载图集并播放
+            _this.roleAni.scaleX = 0.4 * Laya.stage.width / 1920;
+            _this.roleAni.scaleY = 0.4 * Laya.stage.height / 1080;
             _this.roleAni.interval = 50; //设置 animation 对象的动画播放间隔时间，单位：毫秒。
             _this.roleAni.play(); //播放动画。
             _this.addChild(_this.roleAni); //将 animation 对象添加到显示列表。
             return _this;
         }
-        Player.prototype.onLoaded = function () {
+        Player.prototype.onLoadedBackSeq = function () {
             //获得动画矩形边界
             var bounds = this.getBounds();
-            this.size(bounds.width * Laya.Browser.clientWidth / 1920, bounds.height * Laya.Browser.clientHeight / 1080);
-            console.log('this.width=' + this.width);
+            var width = 218;
+            var height = 306;
+            this.size(width * this.roleAni.scaleX, height * this.roleAni.scaleY);
+            this.pivotX = this.width / 2;
+            this.pivotY = this.height;
+        };
+        Player.prototype.onLoadedFrontSeq = function () {
+            //获得动画矩形边界
+            var bounds = this.getBounds();
+            var width = 178;
+            var height = 258;
+            this.size(width * this.roleAni.scaleX, height * this.roleAni.scaleY);
+            this.pivotX = this.width / 2;
+            this.pivotY = this.height;
+        };
+        Player.prototype.onLoadedLeftSeq = function () {
+            //获得动画矩形边界
+            var bounds = this.getBounds();
+            var width = 183;
+            var height = 360;
+            this.size(width * this.roleAni.scaleX, height * this.roleAni.scaleY);
+            this.pivotX = this.width / 2;
+            this.pivotY = this.height;
+        };
+        Player.prototype.onLoadedRightSeq = function () {
+            //获得动画矩形边界
+            var bounds = this.getBounds();
+            var width = 183;
+            var height = 360;
+            this.size(width * this.roleAni.scaleX, height * this.roleAni.scaleY);
+            this.pivotX = this.width / 2;
+            this.pivotY = this.height;
         };
         Player.prototype.tweenTo = function (dx, dy) {
             if (dx == 0 && dy == 0) {
@@ -379,18 +494,18 @@ var entities;
             var deltaY = Math.abs(dy - y);
             if (deltaX < deltaY) {
                 if (dy < y) {
-                    this.roleAni.loadAtlas("res/img/player/后面序列.atlas");
+                    this.roleAni.loadAtlas("res/img/player/后面序列.atlas", Handler.create(this, this.onLoadedBackSeq)); //加载图集并播放
                 }
                 else {
-                    this.roleAni.loadAtlas("res/img/player/正面序列.atlas");
+                    this.roleAni.loadAtlas("res/img/player/正面序列.atlas", Handler.create(this, this.onLoadedFrontSeq)); //加载图集并播放
                 }
             }
             else {
                 if (dx < x) {
-                    this.roleAni.loadAtlas("res/img/player/侧左序列.atlas");
+                    this.roleAni.loadAtlas("res/img/player/侧左序列.atlas", Handler.create(this, this.onLoadedLeftSeq)); //加载图集并播放
                 }
                 else {
-                    this.roleAni.loadAtlas("res/img/player/侧右序列.atlas");
+                    this.roleAni.loadAtlas("res/img/player/侧右序列.atlas", Handler.create(this, this.onLoadedRightSeq)); //加载图集并播放
                 }
             }
             var length = Math.sqrt((dy - y) * (dy - y) + (dx - x) * (dx - x));
@@ -400,50 +515,6 @@ var entities;
     }(entities.Animal));
     entities.Player = Player;
 })(entities || (entities = {}));
-/*
-     * 			var animation:Animation = new Animation();//创建一个 Animation 类的实例对象 animation 。
-     * 			animation.loadAtlas("resource/ani/fighter.json");//加载图集并播放
-     * 			animation.x = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-     * 			animation.y = 200;//设置 animation 对象的属性 x 的值，用于控制 animation 对象的显示位置。
-     * 			animation.interval = 50;//设置 animation 对象的动画播放间隔时间，单位：毫秒。
-     * 			animation.play();//播放动画。
-     * 			Laya.stage.addChild(animation);//将 animation 对象添加到显示列表。
-*/
-//https://github.com/layabox/layaair/tree/master/samples/res/fighter
-/*
-    export class Animation_Altas {
-        private AniConfPath: string = "../../res/fighter/fighter.json";
-
-        constructor() {
-            // 不支持eWebGL时自动切换至Canvas
-            Laya.init(Browser.clientWidth, Browser.clientHeight, WebGL);
-
-            Laya.stage.alignV = Stage.ALIGN_MIDDLE;
-            Laya.stage.alignH = Stage.ALIGN_CENTER;
-
-            Laya.stage.scaleMode = "showall";
-            Laya.stage.bgColor = "#232628";
-
-            ProtoBuf.load(this.AniConfPath, this.createAnimation);
-        }
-
-        private createAnimation(): void {
-            var ani: Animation = new Animation();
-            ani.loadAtlas(this.AniConfPath); // 加载图集动画
-            ani.interval = 30; // 设置播放间隔（单位：毫秒）
-            ani.index = 1; // 当前播放索引
-            ani.play(); // 播放图集动画
-
-            // 获取动画的边界信息
-            var bounds: Rectangle = ani.getGraphicBounds();
-            ani.pivot(bounds.width / 2, bounds.height / 2);
-
-            ani.pos(Laya.stage.width / 2, Laya.stage.height / 2);
-
-            Laya.stage.addChild(ani);
-        }
-    }
-*/ 
 var entities;
 (function (entities) {
     var animals;
@@ -562,6 +633,23 @@ var Tween = laya.utils.Tween;
 var Ease = laya.utils.Ease;
 var Rectangle = laya.maths.Rectangle;
 var PointUtil = utils.PointUtil;
+var Barriers = [
+    { x: 780, y: 450 },
+    { x: 880, y: 490 },
+    { x: 980, y: 400 },
+    { x: 780, y: 300 },
+    { x: 1030, y: 100 },
+    { x: 1188, y: 295 },
+    { x: 1774, y: 540 },
+    { x: 1514, y: 620 },
+    { x: 1244, y: 490 },
+    { x: 1244, y: 490 },
+    { x: 988, y: 685 },
+    { x: 1294, y: 830 },
+    { x: 1224, y: 930 },
+    { x: 1060, y: 960 },
+    { x: 570, y: 630 },
+];
 var BarriersData = [
     {
         type: "House",
@@ -837,46 +925,95 @@ var GameMain = /** @class */ (function () {
         }
         ;
     };
+    GameMain.prototype.segmentsIntr = function (a, b, c, d) {
+        /** 1 解线性方程组, 求线段交点. **/
+        // 如果分母为0 则平行或共线, 不相交  
+        var denominator = (b.y - a.y) * (d.x - c.x) - (a.x - b.x) * (c.y - d.y);
+        if (denominator == 0) {
+            return false;
+        }
+        // 线段所在直线的交点坐标 (x , y)      
+        var x = ((b.x - a.x) * (d.x - c.x) * (c.y - a.y)
+            + (b.y - a.y) * (d.x - c.x) * a.x
+            - (d.y - c.y) * (b.x - a.x) * c.x) / denominator;
+        var y = -((b.y - a.y) * (d.y - c.y) * (c.x - a.x)
+            + (b.x - a.x) * (d.y - c.y) * a.y
+            - (d.x - c.x) * (b.y - a.y) * c.y) / denominator;
+        /** 2 判断交点是否在两条线段上 **/
+        if (
+        // 交点在线段1上  
+        (x - a.x) * (x - b.x) <= 0 && (y - a.y) * (y - b.y) <= 0
+            // 且交点也在线段2上  
+            && (x - c.x) * (x - d.x) <= 0 && (y - c.y) * (y - d.y) <= 0) {
+            // 返回交点p  
+            return {
+                x: x,
+                y: y
+            };
+        }
+        //否则不相交  
+        return false;
+    };
     GameMain.prototype.initBarriers = function () {
+        for (var i = 0; i < Barriers.length; i++) {
+            var fromX = Barriers[i].x * Laya.stage.width / 1920;
+            var fromY = Barriers[i].y * Laya.stage.height / 1080;
+            var toX = Barriers[(i + 1) % Barriers.length].x * Laya.stage.width / 1920;
+            var toY = Barriers[(i + 1) % Barriers.length].y * Laya.stage.height / 1080;
+            var sp = new Laya.Sprite();
+            Laya.stage.addChild(sp);
+            sp.graphics.drawLine(fromX, fromY, toX, toY, "#ff0000", 3);
+        }
+        /*
         this.barriers = new Array(BarriersData.length);
-        for (var i = 0; i < BarriersData.length; i++) {
+        for(var i=0;i<BarriersData.length;i++)  {
             var spriteData = BarriersData[i];
-            var sprite = new Barrier(spriteData.type, spriteData.x, spriteData.y, spriteData.width, spriteData.height);
+            
+            var sprite:Barrier = new Barrier(
+                spriteData.type,
+                spriteData.x,
+                spriteData.y,
+                spriteData.width,
+                spriteData.height
+            );
             this.barriers[i] = sprite;
             Laya.stage.addChild(sprite);
-        }
-        ;
+            
+        };
         //this.barriers[i] = this.creatures[12];
+        */
     };
     GameMain.prototype.init = function () {
         var map = new Map();
         Laya.stage.addChild(map);
         this.initSprites();
-        this.initBarriers();
+        //this.initBarriers();
         this.player = new Player();
         Laya.stage.addChild(this.player);
         Laya.stage.on(Laya.Event.CLICK, this, this.onMouseDown);
     };
     GameMain.prototype.stopIfBarriers = function () {
+        /*
         var rect = this.player.getBounds();
-        rect = new Laya.Rectangle(rect.x, rect.y, rect.width * 0.25, rect.height * 0.25);
-        if (this.barriers != undefined) {
-            for (var i = 0; i < this.barriers.length; i++) {
+        rect = new Laya.Rectangle(rect.x,rect.y,rect.width*0.25,rect.height*0.25);
+        if(this.barriers != undefined) {
+            for(var i=0;i<this.barriers.length;i++) {
                 var barrier = this.barriers[i];
                 var rectBarrier = barrier.getBounds();
-                if (rectBarrier.intersects(rect)) {
+                if(rectBarrier.intersects(rect)) {
                     this.tweenObj.pause();
                     return;
                 }
             }
         }
-        if (this.creatures != undefined) {
+        if(this.creatures != undefined) {
             var rectBarrier2 = this.creatures[12].getBounds();
-            if (rectBarrier2.intersects(rect)) {
+            if(rectBarrier2.intersects(rect)) {
                 this.tweenObj.pause();
                 return;
             }
         }
+        */
     };
     GameMain.prototype.playMediaIfIntersets = function () {
         var rect = this.player.getBounds();
@@ -912,20 +1049,42 @@ var GameMain = /** @class */ (function () {
     };
     GameMain.prototype.onMouseDown = function (parm) {
         var dx = Laya.stage.mouseX;
-        var dy = Laya.stage.mouseY - this.player.height;
-        if (this.barriers != undefined) {
-            for (var i = 0; i < this.barriers.length; i++) {
+        var dy = Laya.stage.mouseY;
+        if (dx == 0 && dy == 0) {
+            return;
+        }
+        this.initBarriers();
+        var a = { x: this.player.x, y: this.player.y };
+        var b = { x: dx, y: dy };
+        for (var i = 0; i < Barriers.length; i++) {
+            var fromX = Barriers[i].x * Laya.stage.width / 1920;
+            var fromY = Barriers[i].y * Laya.stage.height / 1080;
+            var toX = Barriers[(i + 1) % Barriers.length].x * Laya.stage.width / 1920;
+            var toY = Barriers[(i + 1) % Barriers.length].y * Laya.stage.height / 1080;
+            var c = { x: fromX, y: fromY };
+            var d = { x: toX, y: toY };
+            var hasBarrier = this.segmentsIntr(a, b, c, d);
+            console.log('hasBarrier=');
+            console.log(hasBarrier);
+            if (hasBarrier != false) {
+                return;
+            }
+        }
+        /*
+        if(this.barriers != undefined) {
+            for(var i=0;i<this.barriers.length;i++) {
                 var barrier = this.barriers[i];
                 var rectBarrier = barrier.getBounds();
                 //console.log('dx='+dx+',dy='+dy+'rectBarrier=');
                 //console.log(rectBarrier);
-                if (rectBarrier.contains(dx, dy)) {
+                if(rectBarrier.contains(dx,dy)) {
                     console.log('contains and return');
                     return;
                 }
             }
         }
-        Laya.timer.loop(100, this, this.animateTimeBased);
+        */
+        //Laya.timer.loop(100, this, this.animateTimeBased);
         this.tweenObj = this.player.tweenTo(dx, dy);
         MediaUtil.readyToPlayVideo = true;
         MediaUtil.readyToPlayAudio = true;
