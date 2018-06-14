@@ -18,7 +18,7 @@ module utils{
                 MediaUtil.type = type;    
             }
             else if((type == 'Tomato') && (MediaUtil.readyToPlayVideo)) {
-                $('#videoId').attr('src','res/mp4/tomato.mp4');
+                $('#videoId').attr('src','https://outin-6f954cad6fd611e8b07d00163e1c91c8.oss-cn-shanghai.aliyuncs.com/video/22cf11c4-163fe7c7300-0006-4502-f9b-4f456.mp4?Expires=1528987036&OSSAccessKeyId=LTAInFumgYEtNMvC&Signature=3potCU%2FC7tmoahCUYdYBpdcYisY%3D');
                 $('#myModal').modal('toggle');
                 MediaUtil.readyToPlayVideo = false;
                 MediaUtil.type = type;
