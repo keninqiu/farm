@@ -24,6 +24,9 @@ module utils{
             /*
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
             */
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlayVideo = false; 
+                MediaUtil.type = type;            
         }        
 
         public playVideo(type:string) {

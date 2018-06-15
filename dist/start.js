@@ -27,7 +27,9 @@ var utils;
             var PlayAuth = e.PlayAuth;
             
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
-            
+                $('#myModal').modal('toggle');
+                MediaUtil.readyToPlayVideo = false; 
+                MediaUtil.type = type;            
         };
         MediaUtil.prototype.playVideo = function (type) {
             var xhr = new Laya.HttpRequest();
