@@ -27,9 +27,8 @@ var utils;
             var PlayAuth = e.PlayAuth;
             
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
-                $('#myModal').modal('toggle');
-                MediaUtil.readyToPlayVideo = false; 
-                MediaUtil.type = type;            
+            
+            $('#myModal').modal('toggle');
         };
         MediaUtil.prototype.playVideo = function (type) {
             var xhr = new Laya.HttpRequest();
@@ -38,6 +37,8 @@ var utils;
             xhr.once(Laya.Event.ERROR, this, this.errorHandler);
             xhr.on(Laya.Event.PROGRESS, this, this.processHandler);
             xhr.send("php/get_access.php?type=" + type, "", "get", "text");
+            MediaUtil.readyToPlayVideo = false;
+            MediaUtil.type = type;
             /*
                         if((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
                             $('#videoId').attr('src','https://outin-6f954cad6fd611e8b07d00163e1c91c8.oss-cn-shanghai.aliyuncs.com/eaf47c0dd72f4fba97368ed1cd9559a7/1ee3bc64822c45ed88c217ac0097c9e0-8567a6feba931e4fddb6a4c700997332-ld.mp4?Expires=1528992096&OSSAccessKeyId=LTAInFumgYEtNMvC&Signature=s089ssRWJY81Uj9qzfC3R5LJie4%3D');

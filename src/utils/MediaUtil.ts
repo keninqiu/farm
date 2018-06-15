@@ -24,9 +24,9 @@ module utils{
             /*
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
             */
-                $('#myModal').modal('toggle');
-                MediaUtil.readyToPlayVideo = false; 
-                MediaUtil.type = type;            
+            $('#myModal').modal('toggle');
+            
+                        
         }        
 
         public playVideo(type:string) {
@@ -37,6 +37,8 @@ module utils{
             xhr.once(Laya.Event.ERROR, this, this.errorHandler);
             xhr.on(Laya.Event.PROGRESS, this, this.processHandler);
             xhr.send("php/get_access.php?type=" + type, "", "get", "text");
+            MediaUtil.readyToPlayVideo = false; 
+            MediaUtil.type = type;
 
 /*
             if((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
