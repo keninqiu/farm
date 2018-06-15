@@ -28,8 +28,11 @@ function get_play_auth($client, $videoId) {
 }
 
 try {
+	$type = $_GET["type"];
+	$videoId = 'eaf47c0dd72f4fba97368ed1cd9559a7'; //
+	
     $client = init_vod_client(Setting::AccessKeyId, Setting::AccessKeySecret);
-    $playInfo = get_play_auth($client, 'eaf47c0dd72f4fba97368ed1cd9559a7');
+    $playInfo = get_play_auth($client, $videoId);
     var_dump($playInfo);
 } catch (Exception $e) {
    print $e->getMessage();

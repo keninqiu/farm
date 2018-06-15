@@ -165,7 +165,8 @@ class GameMain{
                     return;
                   }                        
                   if((type == 'Dog') || (type == 'Fog') || (type == 'Tomato')|| (type == 'Pumpkin')) {  
-                    MediaUtil.playVideo(type);                
+
+                    new MediaUtil().playVideo(type);                
                     if(this.tweenObj != null && this.tweenObj != undefined) {
                       Laya.timer.clear(this,this.animateTimeBased);
                       this.tweenObj.pause();

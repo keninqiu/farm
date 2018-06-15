@@ -9,8 +9,28 @@ module utils{
         public static type:string = '';
 		constructor(){
 		} 
-        public static playVideo(type:string) {
 
+        private processHandler(data:any): void {
+            console.log(data);
+        }
+        private errorHandler(data:any): void {
+
+        }
+        private completeHandler(e:any): void {
+            console.log('e=' + e);
+
+        }        
+        
+        public playVideo(type:string) {
+
+            var xhr: Laya.HttpRequest = new Laya.HttpRequest();
+            xhr.http.timeout = 10000;//设置超时时间；
+            xhr.once(Laya.Event.COMPLETE, this, this.completeHandler);
+            xhr.once(Laya.Event.ERROR, this, this.errorHandler);
+            xhr.on(Laya.Event.PROGRESS, this, this.processHandler);
+            xhr.send("php/get_access.php?type=" + type, "", "get", "text");
+
+/*
             if((type == 'Dog') && (MediaUtil.readyToPlayVideo)) {
             	$('#videoId').attr('src','https://outin-6f954cad6fd611e8b07d00163e1c91c8.oss-cn-shanghai.aliyuncs.com/eaf47c0dd72f4fba97368ed1cd9559a7/1ee3bc64822c45ed88c217ac0097c9e0-8567a6feba931e4fddb6a4c700997332-ld.mp4?Expires=1528992096&OSSAccessKeyId=LTAInFumgYEtNMvC&Signature=s089ssRWJY81Uj9qzfC3R5LJie4%3D');
                 $('#myModal').modal('toggle');
@@ -35,7 +55,7 @@ module utils{
                 MediaUtil.readyToPlayVideo = false; 
                 MediaUtil.type = type;
             }   
-
+*/
         }
 
         public static playAudio(type:string) {

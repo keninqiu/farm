@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="res/css/styles.css">
     
     <link href="node_modules/bootstrap4-fullscreen-modal/dist/bootstrap4-modal-fullscreen.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.3.5/skins/default/aliplayer-min.css" />
+	<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.3.5/aliplayer-min.js"></script>    
     </head>
     <body>
 		<!-- Modal -->
@@ -23,9 +26,12 @@
 		        <img src="res/img/close.png" />
 		      </div>  		    	
 		      <div class="modal-body">
+		      	<!--
 				<div class="embed-responsive embed-responsive-16by9">
 				  <iframe class="embed-responsive-item fullscreen-bg__video" id="videoId" src="" allowfullscreen></iframe>
 				</div>
+			-->
+				<div class="prism-player" id="J_prismPlayer"></div>			
 		      </div>
 		      <!--
 		      <div class="modal-footer" data-dismiss="modal" onclick="closeMovie()">
