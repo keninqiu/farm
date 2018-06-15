@@ -2,6 +2,7 @@
 * name 
 */
 import SoundManager = Laya.SoundManager;
+
 module utils{
 	export class MediaUtil{
 		public static readyToPlayVideo:boolean = false;
@@ -18,9 +19,13 @@ module utils{
         }
         private completeHandler(e:any): void {
             console.log('e=' + e);
-
+            var VideoId = e.VideoId;
+            var PlayAuth = e.PlayAuth;
+            /*
+            var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
+            */
         }        
-        
+
         public playVideo(type:string) {
 
             var xhr: Laya.HttpRequest = new Laya.HttpRequest();
