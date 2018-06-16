@@ -201,7 +201,7 @@ class GameMain{
         
         var sp = new Laya.Sprite();
         Laya.stage.addChild(sp);
-        sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ffff00", 3);   
+        sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ff0000", 3);   
         
         //this.initBarriers();
         this.initSpriteArea();

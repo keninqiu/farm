@@ -365,7 +365,7 @@ var GameMain = /** @class */ (function () {
         }
         var sp = new Laya.Sprite();
         Laya.stage.addChild(sp);
-        sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ffff00", 3);
+        sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ff0000", 3);
         //this.initBarriers();
         this.initSpriteArea();
         var a = { x: this.player.x, y: this.player.y };
