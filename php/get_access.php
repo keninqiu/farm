@@ -10,14 +10,14 @@ function init_vod_client($accessKeyId, $accessKeySecret) {
   echo "222\n";
   return new DefaultAcsClient($profile);
 }
-
+/*
 function get_play_info($client, $videoId) {
   $request = new vod\GetPlayInfoRequest();
   $request->setVideoId($videoId);
   $request->setAcceptFormat('JSON');
   return $client->getAcsResponse($request);
 }
-
+*/
 function get_play_auth($client, $videoId) {
     $request = new vod\GetVideoPlayAuthRequest();
     $request->setVideoId($videoId);
@@ -33,7 +33,7 @@ try {
 	
     $client = init_vod_client(Setting::AccessKeyId, Setting::AccessKeySecret);
     $playInfo = get_play_auth($client, $videoId);
-    var_dump($playInfo);
+    return json_encode($playInfo);
 } catch (Exception $e) {
    print $e->getMessage();
 }
