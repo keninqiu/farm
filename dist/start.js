@@ -22,17 +22,13 @@ var utils;
         MediaUtil.prototype.errorHandler = function (data) {
         };
         MediaUtil.prototype.completeHandler = function (e) {
-            console.log(e);
             var json = JSON.parse(e);
-            var RequestId = json.RequestId;
-            console.log('RequestId3=' + RequestId);
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
-            console.log('VideoId=' + VideoId + ',PlayAuth=' + PlayAuth);
-            /*
+            
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
-            */
-            //$('#myModal').modal('toggle');
+            
+            $('#myModal').modal('toggle');
         };
         MediaUtil.prototype.playVideo = function (type) {
             var xhr = new Laya.HttpRequest();
