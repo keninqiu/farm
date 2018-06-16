@@ -23,9 +23,12 @@ var utils;
         };
         MediaUtil.prototype.completeHandler = function (e) {
             console.log(e);
-            var VideoId = e["VideoId"];
+            var RequestId = e.RequestId;
+            console.log('RequestId1=' + RequestId);
+            RequestId = e["RequestId"];
+            console.log('RequestId2=' + RequestId);
             var PlayAuth = e["PlayAuth"];
-            console.log('VideoId=' + VideoId);
+            //console.log('VideoId=' + VideoId);
             console.log('PlayAuth=' + PlayAuth);
             /*
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
