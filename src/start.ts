@@ -198,13 +198,13 @@ class GameMain{
             return;
         }
 
-        
+        /*
         var sp = new Laya.Sprite();
         Laya.stage.addChild(sp);
         sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ff0000", 3);   
-        
+        */
         //this.initBarriers();
-        this.initSpriteArea();
+        //this.initSpriteArea();
         var a = {x:this.player.x,y:this.player.y};
         var b = {x:dx,y:dy};
 
