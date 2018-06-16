@@ -22,8 +22,9 @@ var utils;
         MediaUtil.prototype.errorHandler = function (data) {
         };
         MediaUtil.prototype.completeHandler = function (e) {
-            var VideoId = e.VideoId;
-            var PlayAuth = e.PlayAuth;
+            console.log(e);
+            var VideoId = e["VideoId"];
+            var PlayAuth = e["PlayAuth"];
             console.log('VideoId=' + VideoId);
             console.log('PlayAuth=' + PlayAuth);
             
@@ -380,8 +381,6 @@ var GameMain = /** @class */ (function () {
             var c = { x: fromX, y: fromY };
             var d = { x: toX, y: toY };
             var hasBarrier = this.segmentsIntr(a, b, c, d);
-            console.log('hasBarrier=');
-            console.log(hasBarrier);
             if (hasBarrier != false) {
                 return;
             }

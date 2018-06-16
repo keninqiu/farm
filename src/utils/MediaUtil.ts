@@ -17,9 +17,9 @@ module utils{
 
         }
         private completeHandler(e:any): void {
-
-            var VideoId = e.VideoId;
-            var PlayAuth = e.PlayAuth;
+            console.log(e);
+            var VideoId = e["VideoId"];
+            var PlayAuth = e["PlayAuth"];
             console.log('VideoId=' + VideoId);
             console.log('PlayAuth=' + PlayAuth);
             /*
