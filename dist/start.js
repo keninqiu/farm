@@ -11,9 +11,9 @@ var __extends = (this && this.__extends) || (function () {
 /**
 * name
 */
+var player;
 var SoundManager = Laya.SoundManager;
 var utils;
-var player;
 (function (utils) {
     var MediaUtil = /** @class */ (function () {
         function MediaUtil() {
@@ -26,9 +26,9 @@ var player;
             var json = JSON.parse(e);
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
-            
-            player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
-            
+            /*
+           player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
+            */
             $('#myModal').modal('toggle');
         };
         MediaUtil.prototype.playVideo = function (type) {
@@ -369,7 +369,7 @@ var GameMain = /** @class */ (function () {
         sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ffff00", 3);
         */
         //this.initBarriers();
-        //this.initSpriteArea();
+        this.initSpriteArea();
         var a = { x: this.player.x, y: this.player.y };
         var b = { x: dx, y: dy };
         for (var i = 0; i < Barriers.length; i++) {
