@@ -18,6 +18,8 @@ module utils{
         }
         private completeHandler(e:any): void {
             console.log(e);
+            var arr = JSON.stringify(e);
+            console.log(arr);
             var RequestId = e.RequestId;
             console.log('RequestId1=' + RequestId);
             RequestId = e["RequestId"];

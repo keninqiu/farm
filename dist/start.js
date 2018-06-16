@@ -23,6 +23,8 @@ var utils;
         };
         MediaUtil.prototype.completeHandler = function (e) {
             console.log(e);
+            var arr = JSON.stringify(e);
+            console.log(arr);
             var RequestId = e.RequestId;
             console.log('RequestId1=' + RequestId);
             RequestId = e["RequestId"];
