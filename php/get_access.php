@@ -5,9 +5,7 @@ use vod\Request\V20170321 as vod;
 
 function init_vod_client($accessKeyId, $accessKeySecret) {
   $regionId = 'cn-shanghai';  // 点播服务所在的Region，国内请填cn-shanghai，不要填写别的区域
-  echo "111\n";
   $profile = DefaultProfile::getProfile($regionId, $accessKeyId, $accessKeySecret);
-  echo "222\n";
   return new DefaultAcsClient($profile);
 }
 /*
@@ -33,7 +31,7 @@ try {
 	
     $client = init_vod_client(Setting::AccessKeyId, Setting::AccessKeySecret);
     $playInfo = get_play_auth($client, $videoId);
-    echo $playInf;
+    echo $playInfo;
 } catch (Exception $e) {
    print $e->getMessage();
 }
