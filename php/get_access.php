@@ -33,7 +33,7 @@ try {
 	
     $client = init_vod_client(Setting::AccessKeyId, Setting::AccessKeySecret);
     $playInfo = get_play_auth($client, $videoId);
-    echo json_encode($playInfo);
+    echo $playInf;
 } catch (Exception $e) {
    print $e->getMessage();
 }
