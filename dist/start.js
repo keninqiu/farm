@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 */
 var SoundManager = Laya.SoundManager;
 var utils;
+var player;
 (function (utils) {
     var MediaUtil = /** @class */ (function () {
         function MediaUtil() {
@@ -26,7 +27,7 @@ var utils;
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
             
-            var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
+            player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
             
             $('#myModal').modal('toggle');
         };

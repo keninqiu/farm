@@ -1,6 +1,7 @@
 /**
 * name 
 */
+var player;
 import SoundManager = Laya.SoundManager;
 
 module utils{
@@ -21,7 +22,7 @@ module utils{
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
             /*
-            var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
+           player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
             */
             $('#myModal').modal('toggle');
             
