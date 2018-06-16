@@ -259,7 +259,7 @@ var GameMain = /** @class */ (function () {
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.scaleMode = "showall";
-        Laya.stage.screenMode = "horizontal";
+        //Laya.stage.screenMode = "horizontal";
         Laya.stage.fullScreenEnabled = true;
     }
     GameMain.prototype.segmentsIntr = function (a, b, c, d) {

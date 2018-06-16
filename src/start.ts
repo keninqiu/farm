@@ -72,7 +72,7 @@ class GameMain{
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
 
         Laya.stage.scaleMode = "showall";
-        Laya.stage.screenMode = "horizontal";
+        //Laya.stage.screenMode = "horizontal";
         Laya.stage.fullScreenEnabled = true;
 
     }
