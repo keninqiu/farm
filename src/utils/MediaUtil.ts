@@ -18,15 +18,15 @@ module utils{
         }
         private completeHandler(e:any): void {
             console.log(e);
-            var arr = JSON.stringify(e);
-            console.log(arr);
             var RequestId = e.RequestId;
             console.log('RequestId1=' + RequestId);
             RequestId = e["RequestId"];
-            console.log('RequestId2=' + RequestId);            
-            var PlayAuth = e["PlayAuth"];
+            console.log('RequestId2=' + RequestId);     
+            RequestId = e['RequestId'];
+            console.log('RequestId3=' + RequestId);                      
+            //var PlayAuth = e["PlayAuth"];
             //console.log('VideoId=' + VideoId);
-            console.log('PlayAuth=' + PlayAuth);
+            //console.log('PlayAuth=' + PlayAuth);
             /*
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
             */
