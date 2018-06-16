@@ -21,7 +21,7 @@ module utils{
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
             /*
-            var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
+            var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
             */
             $('#myModal').modal('toggle');
             

@@ -27,8 +27,18 @@ function get_play_auth($client, $videoId) {
 
 try {
 	$type = $_GET["type"];
+
 	$videoId = 'eaf47c0dd72f4fba97368ed1cd9559a7'; //
 	
+  if($type == 'fog' || $type == 'Fog') {
+    $videoId = '7a3c93b576324e38b7e19ec1649a932f';
+  }
+  else if($type == 'pumpkin' || $type == 'Pumpkin') {
+    $videoId = 'dd0184b806fa41a4b385a96487b50bb8';
+  }
+  else if($type == 'tomato' || $type == 'Tomato') {
+    $videoId = '27fbb1808910456598b6be5ffe3e9904';
+  }  
     $client = init_vod_client(Setting::AccessKeyId, Setting::AccessKeySecret);
     $playInfo = get_play_auth($client, $videoId);
     echo json_encode($playInfo);
