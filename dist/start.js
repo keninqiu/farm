@@ -26,9 +26,9 @@ var utils;
             var json = JSON.parse(e);
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
-            
+            /*
            player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
-            
+            */
             $('#myModal').modal('toggle');
         };
         MediaUtil.prototype.playVideo = function (type) {
@@ -363,11 +363,9 @@ var GameMain = /** @class */ (function () {
         if (dx == 0 && dy == 0) {
             return;
         }
-        /*
         var sp = new Laya.Sprite();
         Laya.stage.addChild(sp);
         sp.graphics.drawLine(this.player.x, this.player.y, dx, dy, "#ffff00", 3);
-        */
         //this.initBarriers();
         this.initSpriteArea();
         var a = { x: this.player.x, y: this.player.y };
