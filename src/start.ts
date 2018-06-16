@@ -216,8 +216,6 @@ class GameMain{
             var c = {x:fromX,y:fromY};
             var d = {x:toX,y:toY};
             var hasBarrier = this.segmentsIntr(a,b,c,d);
-            console.log('hasBarrier=');
-            console.log(hasBarrier);
             if(hasBarrier != false) {
                 return;
             }

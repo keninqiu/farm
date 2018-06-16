@@ -18,17 +18,18 @@ var utils;
         function MediaUtil() {
         }
         MediaUtil.prototype.processHandler = function (data) {
-            console.log(data);
         };
         MediaUtil.prototype.errorHandler = function (data) {
         };
         MediaUtil.prototype.completeHandler = function (e) {
             var VideoId = e.VideoId;
             var PlayAuth = e.PlayAuth;
+            console.log('VideoId=' + VideoId);
+            console.log('PlayAuth=' + PlayAuth);
             
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
             
-            $('#myModal').modal('toggle');
+            //$('#myModal').modal('toggle');
         };
         MediaUtil.prototype.playVideo = function (type) {
             var xhr = new Laya.HttpRequest();

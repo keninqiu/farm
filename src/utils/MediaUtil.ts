@@ -12,7 +12,6 @@ module utils{
 		} 
 
         private processHandler(data:any): void {
-            console.log(data);
         }
         private errorHandler(data:any): void {
 
@@ -21,10 +20,12 @@ module utils{
 
             var VideoId = e.VideoId;
             var PlayAuth = e.PlayAuth;
+            console.log('VideoId=' + VideoId);
+            console.log('PlayAuth=' + PlayAuth);
             /*
             var player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "1920px",height: "1280px",vid: VideoId,playauth: PlayAuth});
             */
-            $('#myModal').modal('toggle');
+            //$('#myModal').modal('toggle');
             
                         
         }        
