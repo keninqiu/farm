@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>蚂蚁小求知</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+    <!-- Bootstrap CSS -->
+    <!--
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	-->
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="res/css/styles.css">
+    
+    <link href="node_modules/bootstrap4-fullscreen-modal/dist/bootstrap4-modal-fullscreen.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.3.5/skins/default/aliplayer-min.css" />
+	<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.3.5/aliplayer-min.js"></script>    
+    </head>
+    <body>
+		<!-- Modal -->
+
+		<div class="modal fade modal-fullscreen" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-footer" data-dismiss="modal" onclick="closeMovie()">
+		        <img src="res/img/close.png" />
+		      </div>  		    	
+		      <div class="modal-body">
+		      	<!--
+				<div class="embed-responsive embed-responsive-16by9">
+				  <iframe class="embed-responsive-item fullscreen-bg__video" id="videoId" src="" allowfullscreen></iframe>
+				</div>
+			-->
+				<div class="prism-player" id="J_prismPlayer"></div>			
+		      </div>
+		      <!--
+		      <div class="modal-footer" data-dismiss="modal" onclick="closeMovie()">
+		        <img src="res/img/close.png" />
+		      </div>  
+		  -->
+		    </div>  
+		  </div>
+		</div>
+
+		<!--核心包，封装了显示对象渲染，事件，时间管理，时间轴动画，缓动，消息交互,socket，本地存储，鼠标触摸，声音，加载，颜色滤镜，位图字体等-->
+		<script type="text/javascript" src="ts/libs/laya.core.js"></script>
+		<!--封装了webgl渲染管线，如果使用webgl渲染，可以在初始化时调用Laya.init(1000,800,laya.webgl.WebGL);-->
+		
+	    <script type="text/javascript" src="ts/libs/laya.webgl.js"></script>
+	    <!--
+	    <script type="text/javascript" src="ts/libs/laya.ani.js"></script>
+	    <script type="text/javascript" src="ts/libs/laya.filter.js"></script>
+	    <script type="text/javascript" src="ts/libs/laya.html.js"></script>
+	    <script type="text/javascript" src="ts/libs/laya.particle.js"></script>
+	    <script type="text/javascript" src="ts/libs/laya.tiledmap.js"></script>
+	    <script type="text/javascript" src="ts/libs/laya.ui.js"></script>   
+		-->
+        <script src="dist/start.js"></script>
+
+        <script src="res/js/main.js"></script>
+
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.slim.min.js"></script>  
+
+        <script type="text/javascript" src="node_modules/popper.js/dist/umd/popper.min.js"></script> 
+
+        <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>  
+
+        <!--
+	    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	-->
+
+    </body>
+</html>
