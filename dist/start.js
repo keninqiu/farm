@@ -26,9 +26,9 @@ var utils;
             var json = JSON.parse(e);
             var VideoId = json.VideoMeta.VideoId;
             var PlayAuth = json.PlayAuth;
-            /*
+            
            player = Aliplayer({id: "J_prismPlayer",autoplay: true,width: "100%",height: "100%",vid: VideoId,playauth: PlayAuth});
-            */
+            
         };
         MediaUtil.prototype.playVideo = function (type) {
             $('#myModal').modal('toggle');
